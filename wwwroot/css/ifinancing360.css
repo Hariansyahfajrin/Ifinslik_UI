@@ -1,0 +1,217 @@
+:root {
+	--ifinancing-color-primary-100: #ffdadb;
+	--ifinancing-color-primary-200: #ffb5b7;
+	--ifinancing-color-primary-300: #ff9192;
+	--ifinancing-color-primary-400: #ff6c6e;
+	--ifinancing-color-primary-500: #ff6a6a;
+	--ifinancing-color-primary-600: #cc393b;
+	--ifinancing-color-primary-700: #992b2c;
+	--ifinancing-color-primary-800: #661c1e;
+	--ifinancing-color-primary-900: #330e0f;
+	--ifinancing-color-primary: var(--ifinancing-color-primary-500);
+}
+
+.page {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	background-color: #f4f4f4;
+}
+
+main {
+	flex: 1;
+}
+
+.sidebar {
+	background-image: linear-gradient(
+		180deg,
+		var(--ifinancing-color-primary) 0%,
+		var(--ifinancing-color-primary-800) 150%
+	);
+}
+
+.headbar {
+	background-color: var(--ifinancing-color-primary);
+}
+
+.top-row {
+	background-color: rgba(0, 0, 0, 0.2);
+	justify-content: flex-end;
+	height: 3.5rem;
+	display: flex;
+	align-items: center;
+}
+
+.top-row ::deep a,
+.top-row .btn-link {
+	white-space: nowrap;
+	margin-left: 1.5rem;
+}
+
+.top-row a:first-child {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.navbar-toggler {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-row-sidebar {
+	height: 3.5rem;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand {
+	font-size: 1.1rem;
+}
+
+.oi {
+	width: 2rem;
+	font-size: 1.1rem;
+	vertical-align: text-top;
+	top: -2px;
+}
+
+.nav-item {
+	font-size: 0.9rem;
+	padding-bottom: 0.5rem;
+}
+
+.nav-item:first-of-type {
+	padding-top: 1rem;
+}
+
+.nav-item:last-of-type {
+	padding-bottom: 1rem;
+}
+
+.nav-item ::deep a {
+	color: #d7d7d7;
+	border-radius: 4px;
+	height: 3rem;
+	display: flex;
+	align-items: center;
+	line-height: 3rem;
+}
+
+.nav-item ::deep a.active {
+	background-color: rgba(255, 255, 255, 0.25);
+	color: white;
+}
+
+.nav-item ::deep a:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+	color: white;
+}
+
+.ifinancing360-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 999;
+	padding: 3rem;
+}
+
+.ifinancing360-overlay {
+	position: absolute;
+	inset: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: -1;
+}
+
+.ifinancing360-modal-content {
+	width: 100%;
+	height: fit-content;
+}
+
+@media (max-width: 640.98px) {
+	.top-row:not(.auth) {
+		display: none;
+	}
+
+	.top-row.auth {
+		justify-content: space-between;
+	}
+
+	.top-row a,
+	.top-row .btn-link {
+		margin-left: 0;
+	}
+}
+
+@media (min-width: 641px) {
+	.page {
+		flex-direction: row;
+	}
+
+	.sidebar {
+		width: 250px;
+		height: 100vh;
+		position: sticky;
+		top: 0;
+	}
+
+	.top-row {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+	}
+
+	.top-row,
+	article {
+		padding-left: 2rem !important;
+		padding-right: 1.5rem !important;
+	}
+
+	.navbar-toggler {
+		display: none;
+	}
+
+	.nav.collapse {
+		/* Never collapse the sidebar for wide screens */
+		display: block;
+	}
+
+	.nav-scrollable {
+		/* Allow sidebar to scroll for tall menus */
+		height: calc(100vh - 3.5rem);
+		overflow-y: auto;
+	}
+
+	.ifinancing360-modal-content {
+		width: 100%;
+	}
+}
+
+@media (max-width: 768px) {
+	.ifinancing360-modal-content {
+		width: 100%;
+	}
+}
+
+.rz-datatable-thead th.rz-text-align-center .rz-column-title,
+.rz-grid-table thead th.rz-text-align-center .rz-column-title {
+	justify-content: start !important;
+}
+.rz-datatable-thead th.rz-text-align-center.text-center .rz-column-title,
+.rz-grid-table thead th.rz-text-align-center.text-center .rz-column-title {
+	justify-content: center !important;
+}
+
+.rz-datatable-thead th.rz-text-align-right .rz-column-title,
+.rz-grid-table thead th.rz-text-align-right .rz-column-title {
+	justify-content: start !important;
+}
+.rz-datatable-thead th.rz-text-align-right.text-right .rz-column-title,
+.rz-grid-table thead th.rz-text-align-right.text-right .rz-column-title {
+	justify-content: end !important;
+}
+
+.rz-datatable-thead th.rz-text-align-right .rz-column-title,
+.rz-grid-table thead th.rz-text-align-right .rz-column-title {
+	justify-content: start !important;
+}
+.rz-datatable-thead th.rz-text-align-right.text-right .rz-column-title,
+.rz-grid-table thead th.rz-text-align-right.text-right .rz-column-title {
+	justify-content: end !important;
+}

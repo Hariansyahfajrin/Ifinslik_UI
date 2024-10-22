@@ -1,0 +1,30 @@
+@namespace IFinancing360_UI.Layouts
+@inherits LayoutComponentBase
+@inject IWebHostEnvironment environment
+@using Config;
+
+<RadzenComponents />
+<LoadingSpinner />
+
+@if (environment.IsDevelopment())
+{
+	<PageTitle>@PageTitle</PageTitle>
+	@Body
+}
+else
+{
+	<ErrorBoundary>
+		<ChildContent>
+			<PageTitle>@PageTitle</PageTitle>
+			@Body
+		</ChildContent>
+
+		<ErrorContent Context="Exception">
+			<Error Title="Internal Server Error" Caption="Please contact support if the problem persists." />
+		</ErrorContent>
+	</ErrorBoundary>
+}
+
+@code {
+	public string PageTitle { get => $"IFinancing360 | {AppConfig.MODULE}"; }
+}

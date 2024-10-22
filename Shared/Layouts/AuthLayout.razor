@@ -1,0 +1,79 @@
+@namespace IFinancing360_UI.Layouts
+@inherits LayoutComponentBase
+@inject AuthStateProvider AuthStateProvider
+@inject LoadingService Loading
+@layout MainLayout
+@using Config
+
+@if (IsAuthenticated)
+{
+  <div class="page">
+    <div class="sidebar">
+      <Sidebar />
+    </div>
+
+    <main>
+      <div class="headbar">
+        <div class="top-row px-4">
+          <RadzenProfileMenu Style="color: whitesmoke; background-color: transparent;">
+            <Template>
+              <RadzenStack Gap="12" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                @(AuthStateProvider.CurrentUser?.UserName)
+                <RadzenGravatar />
+
+              </RadzenStack>
+            </Template>
+            <ChildContent>
+              <RadzenPanelMenu Style="width:300px">
+                <RadzenPanelMenuItem Text="Logout" Icon="exit_to_app" Click="@Logout" />
+              </RadzenPanelMenu>
+            </ChildContent>
+          </RadzenProfileMenu>
+        </div>
+      </div>
+      <article class="content px-4">
+        @Body
+      </article>
+    </main>
+  </div>
+}
+
+@code {
+
+  protected override async Task OnParametersSetAsync()
+  {
+    await base.OnParametersSetAsync();
+  }
+
+  [CascadingParameter] protected Task<AuthenticationState> AuthState { get; set; } = default!;
+
+  bool IsAuthenticated = false;
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      var authState = await AuthState;
+      var user = authState.User;
+
+      IsAuthenticated = user.Identity?.IsAuthenticated ?? false;
+
+      if (!IsAuthenticated)
+      {
+        NavigationManager.NavigateTo(AppConfig.LOGIN_PATH);
+      }
+
+      StateHasChanged();
+    }
+  }
+
+  async Task Logout()
+  {
+    Loading.Show();
+    await AuthStateProvider.LogoutAsync();
+
+    Loading.Close();
+    NavigationManager.NavigateTo(AppConfig.LOGIN_PATH);
+
+    StateHasChanged();
+  }
+}

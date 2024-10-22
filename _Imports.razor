@@ -1,0 +1,38 @@
+﻿@using System.Net.Http
+@using System.Text.Json
+@using System.Linq.Dynamic.Core
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Microsoft.JSInterop
+
+@using Data.Model
+@using Data.Service
+@using Helper
+@using Helper.APIClient
+@using Helper.Auth
+
+
+@* IFinancing360_UI *@
+@using IFinancing360_UI
+@using IFinancing360_UI.Shared
+@using IFinancing360_UI.Layouts
+@using IFinancing360_UI.Components
+
+@* Radzen *@
+@using Radzen
+@using Radzen.Blazor
+
+@* Inject *@
+@inject NavigationManager NavigationManager
+@inject NotificationService NotificationService
+@inject DialogService DialogService
+@inject ProtectedSessionStorage session
+
+@* Base *@
+@inherits BaseComponent

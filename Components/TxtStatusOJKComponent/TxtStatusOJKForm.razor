@@ -1,0 +1,30 @@
+<RadzenTemplateForm TItem="TxtStatusOJKModel" Data="@row" Submit=@OnSubmit>
+	<RadzenStack>
+		<RadzenRow Gap="8">
+			<RoleAccess Code="RC0000546">
+				<RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Text="Save" />
+			</RoleAccess>
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Back" Click="@Back" />
+		</RadzenRow>
+
+		<RadzenStack>
+			<RadzenRow>
+				<FormFieldButtonLookup Name="PeriodeDtae" Label="Periode" Target="PeriodeLookup" @bind-Value="@row.PeriodeDate"
+					Text="@(row.Date?.ToString("yyyyMM"))" Required="true" Disabled=@(ID != null) />
+				<FormFieldDropdown TValue="string" Label="Company Type" Name="FinanceCompanyType" ValueProperty="Key"
+					TextProperty="Value" Items="@typeCompanys" @bind-Value="@row.FinanceCompanyType" Required="true" />
+				<FormFieldDatePicker Label="Date" Name="Date" @bind-Value="@row.Date" Required="true" />
+			</RadzenRow>
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+
+<SingleSelectLookup @ref="@PeriodeLookup" ID="PeriodeLookup" TItem="BuktiBerhasilLaporModel"
+	LoadData="LoadPeriodeLookup" Title="Periode List" Select="(select) => {
+								row.PeriodeDate        			 = select.PeriodePelaporan;
+								row.Date        			 = select.TanggalUpload;
+								row.FinanceCompanyType = select.FinanceCompanyType;
+							}">
+	<DataGridColumn TItem="BuktiBerhasilLaporModel" Property="TanggalUpload" Title="Tanggal" />
+	<DataGridColumn TItem="BuktiBerhasilLaporModel" Property="FinanceCompanyType" Title="Finance Company Type" />
+</SingleSelectLookup>

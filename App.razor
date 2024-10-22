@@ -1,0 +1,11 @@
+﻿@namespace IFinancing360_UI
+
+<Router AppAssembly="@typeof(App).Assembly">
+	<Found Context="routeData">
+		<RouteView RouteData="@routeData" DefaultLayout="@typeof(AuthLayout)" />
+		<FocusOnNavigate RouteData="@routeData" Selector="h1" />
+	</Found>
+	<NotFound>
+		<Error Message="Page Not Found" />
+	</NotFound>
+</Router>

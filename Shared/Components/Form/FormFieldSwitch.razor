@@ -1,0 +1,30 @@
+@namespace IFinancing360_UI.Components
+@inherits FormField<int?>
+@using System.Linq.Expressions
+
+<FormField TValue="int?" Name="@Name" Size="Size" Visible="@Visible" Disabled="@Disabled" Required="@Required"
+	Label="@Label" Style="@Style" @bind-Value="@Value">
+	<RadzenSwitch class="d-block" Name="@Name" TabIndex="TabIndex" Value="@(Value == 1)"
+		Placeholder="@(Placeholder ?? $"Enter {Label}")" Disabled="Disabled" ValueChanged="(arg => {
+
+			ValueChanged.InvokeAsync(ConvertBooleanToValue(arg));
+		})" Change="(arg => Change.InvokeAsync(ConvertBooleanToValue(arg)))" Style="@InputStyle" />
+	@ChildContent
+</FormField>
+
+@code {
+	[Parameter] public string? InputStyle { get; set; }
+	protected override async Task OnInitializedAsync()
+	{
+		if (Value == null)
+		{
+			await ValueChanged.InvokeAsync(-1);
+		}
+		await base.OnInitializedAsync();
+	}
+	private int? ConvertBooleanToValue(bool value)
+	{
+		if (value) return 1;
+		else return -1;
+	}
+}

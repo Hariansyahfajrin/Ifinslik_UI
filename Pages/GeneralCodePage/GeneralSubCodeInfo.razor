@@ -1,0 +1,26 @@
+@page "/setting/generalcode/{GeneralCodeID}/generalsubcode/add"
+@page "/setting/generalcode/{GeneralCodeID}/generalsubcode/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.SysGeneralSubCodeComponent
+@using IFinancing360_SLIK_UI.Components.MasterOJKReferenceComponent
+
+<Card>
+	<Title Text="General Sub Code Info" />
+
+	<SysGeneralSubCodeForm ID=@ID GeneralCodeID="@GeneralCodeID" RowGeneralCodeChanged="@(row => GeneralCode = row)" />
+
+	<!-- #region List Detail -->
+	@if (ID != null)
+	{
+			<Divider />
+			<Title Text="Master OJK Reference List" />
+
+			<MasterOJKReferenceDataGrid GeneralCodeID="@GeneralCodeID" GeneralSubCodeID="@ID" GeneralCode="@GeneralCode" />
+	} <!-- #endregion -->
+</Card>
+
+@code {
+	[Parameter] public string? GeneralCodeID { get; set; }
+	[Parameter] public string? ID { get; set; }
+	public SysGeneralCodeModel? GeneralCode { get; set; }
+}

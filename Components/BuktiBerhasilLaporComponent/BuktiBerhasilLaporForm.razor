@@ -1,0 +1,59 @@
+<!-- #region Form -->
+<RadzenTemplateForm TItem="BuktiBerhasilLaporModel" Data="@row" Submit=@OnSubmit>
+	<RadzenStack>
+		<!-- #region Toolbar -->
+		<RadzenRow Gap="8">
+			<RoleAccess Code="RC0000036">
+				<RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Text="Save" />
+			</RoleAccess>
+			@if (ID != null)
+			{
+				<RoleAccess Code="RC0000534">
+					<RadzenButton ButtonStyle=@(row.IsActive == 1 ? ButtonStyle.Danger : ButtonStyle.Success) Text=@(row.IsActive ==
+					1 ? "Non Active" : "Active") Click="@ChangeStatus" />
+				</RoleAccess>
+			}
+
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Back" Click="@Back" />
+		</RadzenRow>
+		<!-- #endregion -->
+
+		<RadzenStack>
+			<RadzenRow>
+				@* <FormFieldTextBox Label="Code" Name="Code" @bind-Value="@row.Code" Max="50" Disabled="@(ID != null)" /> *@
+				<FormFieldDropdown TValue="string" Label="Finance Company Type" Name="FinanceCompanyType" ValueProperty="Key"
+					TextProperty="Value" Items="@companyTypes" @bind-Value="@row.FinanceCompanyType" Required />
+				<FormFieldDropdown TValue="string" Label="Month" Name="Month" ValueProperty="Key" TextProperty="Value"
+					Items="@months" @bind-Value="@row.Month" Size="2" Required />
+				<FormFieldDropdown TValue="string" Label="Year" Name="Year" ValueProperty="Key" TextProperty="Value"
+					Items="@years" @bind-Value="@row.Year" Size="2" Required />
+				<FormFieldTextBox Label="Status" Name="Status" @bind-Value="@row.Status" Disabled="true" />
+			</RadzenRow>
+			<RadzenRow>
+				<FormFieldDatePicker Label="Tanggal Upload" Name="TanggalUpload" @bind-Value="@row.TanggalUpload" />
+				@if (row.Status == "REPORTING")
+				{
+					<FormFieldFileInput Label="File" Name="File" @bind-Value="@row.FileName" Required="true" />
+				}
+				<FormFieldTextBox Label="Nama Pelapor" Name="NamaPelapor" @bind-Value="@row.NamaPelapor" Max="250"
+					Required="true" />
+				<FormFieldSwitch Name="IsAutoGenerate" Label="Generate" @bind-Value="@row.IsAutoGenerate" Size="2" />
+				<FormFieldSwitch Name="IsActive" Label="Active" @bind-Value="@row.IsActive" Disabled Size="2" />
+			</RadzenRow>
+			<RadzenRow>
+				<FormFieldTextArea Label="Notes" Name="Notes" @bind-Value="@row.Notes" Max="4000" Required="true" />
+			</RadzenRow>
+
+			<RadzenRow>
+
+				@* <FormFieldSwitch Name="IsActive" Label="Active" @bind-Value="@row.IsActive" Disabled="@(ID != null)" />
+				<FormFieldSwitch Name="IsBackup" Label="Backup" @bind-Value="@row.IsBackup" Disabled="@(ID != null)" /> *@
+			</RadzenRow>
+
+
+
+
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+<!-- #endregion -->

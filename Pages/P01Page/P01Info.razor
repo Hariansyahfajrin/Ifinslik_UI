@@ -1,0 +1,28 @@
+@page "/transaction/datapenjamin/add"
+@page "/transaction/datapenjamin/{ID}"
+
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionComponent
+@using IFinancing360_SLIK_UI.Components.P01Component
+
+<Card>
+	<Card>
+		<Title Text="Data Penjamin (P01) Info" />
+
+		<FormTransactionForm ID="@ID" Link="datapenjamin" FormType="P01" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Data Penjamin (P01) List" />
+
+			<P01DataGrid FormTransactionID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>

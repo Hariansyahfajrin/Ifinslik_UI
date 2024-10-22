@@ -1,0 +1,47 @@
+@namespace IFinancing360_UI.Shared
+@inject IWebHostEnvironment environment
+@inject IJSRuntime JSRuntime
+@using Config
+
+<PageTitle>@Title</PageTitle>
+
+<RadzenStack Style="height: 100vh; padding: 4rem; " JustifyContent="JustifyContent.Center"
+	AlignItems="AlignItems.Center">
+
+	<RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
+		<RadzenImage Path="logo.png" Style="width: 10rem; " />
+
+		<RadzenStack AlignItems="AlignItems.Center" Gap="2">
+			<RadzenText TextStyle="TextStyle.DisplayH3" Style="color: var(--rz-danger); margin: 0;">
+				<strong>
+					@Message
+				</strong>
+			</RadzenText>
+
+			@if (!string.IsNullOrEmpty(Caption))
+			{
+				<RadzenText TextStyle="TextStyle.H5" Style="color: var(--rz-danger); margin: 0;" Visible="@true">
+					@Caption
+				</RadzenText>
+			}
+		</RadzenStack>
+
+	</RadzenStack>
+	@ChildContent
+	<RadzenStack Style="margin-top: 2rem;  width: 25%;" Gap="2" JustifyContent="JustifyContent.Center">
+		<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Go Back" Size="ButtonSize.Large"
+			Click="@(() => JSRuntime.InvokeVoidAsync("history.back"))" />
+		<RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.Caption">
+			© @(DateTime.Now.Year), PT. Inovasi Mitra Sejati. Version @AppConfig.VERSION
+		</RadzenText>
+	</RadzenStack>
+
+</RadzenStack>
+
+@code {
+	[Parameter] public string Title { get; set; } = $"IFinancing360 | {AppConfig.MODULE}";
+
+	[Parameter] public string? Message { get; set; } = "Something went wrong.";
+	[Parameter] public string? Caption { get; set; }
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+}

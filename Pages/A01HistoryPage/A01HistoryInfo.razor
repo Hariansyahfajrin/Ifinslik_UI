@@ -1,0 +1,27 @@
+@page "/inquiry/dataagunanhistory/add"
+@page "/inquiry/dataagunanhistory/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionHistoryComponent
+@using IFinancing360_SLIK_UI.Components.A01HistoryComponent
+
+<Card>
+	<Card>
+		<Title Text="Data Agunan History (A01) Info" />
+
+		<FormTransactionHistoryForm ID="@ID" Link="dataagunanhistory" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Data Agunan History (A01) List" />
+
+			<A01HistoryDataGrid FormTransactionHistoryID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>

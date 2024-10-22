@@ -1,0 +1,16 @@
+@page "/setting/generalcode/{GeneralCodeID}/generalsubcode/{GeneralSubCodeID}/masterojkreference/add"
+@page "/setting/generalcode/{GeneralCodeID}/generalsubcode/{GeneralSubCodeID}/masterojkreference/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.MasterOJKReferenceComponent
+
+<Card>
+	<Title Text="Master OJK Reference Info" />
+
+	<MasterOJKReferenceForm ID="@ID" GeneralCodeID="@GeneralCodeID" GeneralSubCodeID="@GeneralSubCodeID" />
+</Card>
+
+@code {
+	[Parameter] public string? ID { get; set; }
+	[Parameter] public string? GeneralCodeID { get; set; }
+	[Parameter] public string? GeneralSubCodeID { get; set; }
+}

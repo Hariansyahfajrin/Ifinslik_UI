@@ -1,0 +1,27 @@
+@page "/transaction/datapengurus/add"
+@page "/transaction/datapengurus/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionComponent
+@using IFinancing360_SLIK_UI.Components.M01Component
+
+<Card>
+	<Card>
+		<Title Text="Data Pengurus/Pemilik (M01) Info" />
+
+		<FormTransactionForm ID="@ID" Link="datapengurus" FormType="M01" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Data Pengurus/Pemilik (M01) List" />
+
+			<M01DataGrid FormTransactionID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>

@@ -1,0 +1,39 @@
+@namespace IFinancing360_UI.Shared
+
+<div class="top-row-sidebar ps-3 navbar navbar-dark">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="">@module</a>
+		<button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</div>
+</div>
+
+<div class="nav @SidebarCssClass nav-scrollable" @onclick="ToggleNavMenu">
+	@if (isLoading)
+	{
+		<RadzenStack AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center"
+			Style="position: absolute; inset: 0; z-index: 9999;">
+			<RadzenProgressBarCircular ShowValue="false" ProgressBarStyle="ProgressBarStyle.Primary"
+				Mode="ProgressBarMode.Indeterminate" Size="ProgressBarCircularSize.Medium" />
+		</RadzenStack>
+	}
+	<nav class="flex-column w-100 position-relative">
+		<RadzenPanelMenu Style="background-color: transparent; padding: 0 0.25rem;">
+			@if (menus != null)
+				@foreach (var menu in menus)
+				{
+					<RadzenPanelMenuItem Text="@menu.Name" class="nav-container"
+						Path="@(menu.SubMenu.Count() <= 0 ? menu.URLMenu : null)"
+						Style="background-color: transparent; color: whitesmoke; border: none;text-transform: uppercase;">
+						@foreach (var subMenu in menu.SubMenu)
+						{
+							<RadzenPanelMenuItem class="nav-container" Text="@subMenu.Name?.ToString()"
+								Path="@(menu.URLMenu + '/' + subMenu.URLMenu)"
+								Style="background-color: transparent; color: whitesmoke; border: none;text-transform: capitalize;" />
+						}
+					</RadzenPanelMenuItem>
+				}
+		</RadzenPanelMenu>
+	</nav>
+</div>

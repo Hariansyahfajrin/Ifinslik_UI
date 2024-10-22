@@ -1,0 +1,49 @@
+@namespace IFinancing360_UI.Components
+@typeparam TItem
+@inherits LookupModal<TItem>
+<Modal @ref="modal">
+	<HeaderTemplate>
+		<RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Gap="16"
+			class="section-header">
+			<RadzenText TextStyle="TextStyle.DisplayH5" Text="@(Title ?? typeof(TItem).Name)" />
+			<RadzenButton Icon="highlight_off" ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Click="Close" />
+		</RadzenRow>
+	</HeaderTemplate>
+
+	<Template>
+		<DataGrid ID="@ID" @ref="dataGrid" LoadData="LoadData" AllowSelected="false" SaveSession="false">
+			@ChildContent
+
+			@if (ChildContent != null)
+			{
+				<RadzenDataGridColumn OrderIndex="99999999" TItem="TItem" Context="row" Title="Action" Sortable="false"
+					Filterable="false" Width="7rem" TextAlign="TextAlign.Center" Resizable="false" HeaderCssClass="text-center">
+					<Template Context="row">
+						<RadzenButton Text="Select" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Small"
+							Click="args => SelectRow(row)" />
+					</Template>
+				</RadzenDataGridColumn>
+			}
+		</DataGrid>
+	</Template>
+</Modal>
+
+
+@code {
+	[Parameter]
+	public EventCallback<TItem> Select { get; set; }
+	public TItem? selected;
+	private void SelectRow(TItem row)
+	{
+		Loading.Show();
+
+		if (Select.HasDelegate)
+		{
+			Select.InvokeAsync(row);
+		}
+		selected = row;
+
+		Loading.Close();
+		Close();
+	}
+}

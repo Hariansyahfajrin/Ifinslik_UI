@@ -1,0 +1,9 @@
+@namespace IFinancing360_UI.Components
+
+<RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Start" Gap="16" class="section-header">
+  <RadzenText TextStyle="TextStyle.DisplayH5">@Text</RadzenText>
+</RadzenRow>
+
+@code {
+  [Parameter] public string? Text { get; set; }
+}

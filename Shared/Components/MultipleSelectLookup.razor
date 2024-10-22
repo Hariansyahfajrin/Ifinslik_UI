@@ -1,0 +1,50 @@
+@namespace IFinancing360_UI.Components
+@typeparam TItem
+@inherits LookupModal<TItem>
+
+<Modal @ref="modal">
+  <HeaderTemplate>
+    <RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Gap="16"
+      class="section-header">
+      <RadzenText TextStyle="TextStyle.DisplayH5" Text="@(Title ?? typeof(TItem).Name)" />
+      <RadzenButton Icon="highlight_off" ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Click="Close" />
+    </RadzenRow>
+  </HeaderTemplate>
+
+  <Template>
+    <RadzenStack>
+      <!-- #region Toolbar -->
+      <RadzenRow Gap="8">
+        @ToolbarTemplate
+      </RadzenRow>
+      <!-- #endregion -->
+      <DataGrid ID="@ID" @ref="dataGrid" LoadData="LoadData" AllowSelected="true" SaveSession="false">
+        @if (ColumnsTemplate != null)
+        {
+          @ColumnsTemplate
+        }
+        else
+        {
+          @ChildContent
+        }
+      </DataGrid>
+    </RadzenStack>
+  </Template>
+</Modal>
+
+
+@code {
+  [Parameter, EditorRequired]
+  public RenderFragment? ColumnsTemplate { get; set; }
+
+  [Parameter]
+  public RenderFragment? ToolbarTemplate { get; set; }
+
+  public List<TItem> GetSelected()
+  {
+    return dataGrid.selectedData.ToList();
+  }
+
+
+
+}

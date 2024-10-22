@@ -1,0 +1,28 @@
+@namespace IFinancing360_UI.Components
+@typeparam TValue
+@inherits FormField<TValue>
+
+<FormField TValue="TValue" Name="@Name" Size="Size" Visible="@Visible" Disabled="@Disabled" Required="@Required"
+  Label="@Label" Style="@Style">
+  <RadzenNumeric class="d-block w-50" Name="@Name" TabIndex="TabIndex" Value="@Value"
+    Placeholder="@(Placeholder ?? $"Enter {Label}")" Disabled="Disabled" ValueChanged="(value) => {
+			Value = value;
+			ValueChanged.InvokeAsync(value);
+		}" Change="Change" ShowUpDown="ShowUpDown" TValue="TValue" TextAlign="TextAlign"
+    Min="@(Min == null && Absolute ? 0 : Min)" Max="Max" Format=@Format Style="@InputStyle" Step="@Step" />
+  @ChildContent
+
+</FormField>
+
+@code {
+  [Parameter] public bool Absolute { get; set; }
+  [Parameter] public int? Min { get; set; }
+  [Parameter] public int? Max { get; set; }
+  [Parameter] public TextAlign TextAlign { get; set; } = TextAlign.Right;
+  @* [Parameter] public string? Placeholder { get; set; } *@
+  [Parameter] public string? InputStyle { get; set; }
+  [Parameter] public string? Format { get; set; }
+  [Parameter] public bool ShowUpDown { get; set; } = true;
+  [Parameter] public string? Step { get; set; }
+
+}

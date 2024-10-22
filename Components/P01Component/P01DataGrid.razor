@@ -1,0 +1,30 @@
+<RadzenStack>
+	<RadzenRow Gap="8">
+		<RoleAccess Code="RC0000023">
+			<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+		</RoleAccess>
+		<RoleAccess Code="RD0000004">
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" />
+		</RoleAccess>
+	</RadzenRow>
+	<DataGrid @ref=@dataGrid TItem="P01Model" LoadData="LoadData" AllowSelected=true>
+		<RadzenDataGridColumn TItem="P01Model" Title="NomorIdentitas" Width="20%" TextAlign="TextAlign.Center">
+			<Template Context="row">
+				<RadzenLink Path="@($"/transaction/datapenjamin/{FormTransactionID}/Penjamin02/{row.ID}")">
+					@row.NomorIdentitas
+				</RadzenLink>
+			</Template>
+		</RadzenDataGridColumn>
+		<RadzenDataGridColumn TItem="P01Model" Property="NomorRekening" Title="Nomor Rekening" Width="15%" />
+		<RadzenDataGridColumn TItem="P01Model" Property="Cif" Title="Cif" Width="15%" />
+		<RadzenDataGridColumn TItem="P01Model" Property="NamaLengkap" Title="Nama Lengkap" Width="20%" />
+		<RadzenDataGridColumn TItem="P01Model" Property="NamaLengkapPenjamin" Title="Nama Lengkap Penjamin" Width="15%" />
+		<RadzenDataGridColumn TItem="P01Model" Property="PresentaseDijamin" Title="Presentase Dijamin" Width="15%">
+			<Template Context="row">
+				@(string.Format("{0:0,0.00}", row.PresentaseDijamin))
+			</Template>
+		</RadzenDataGridColumn>
+
+
+	</DataGrid>
+</RadzenStack>

@@ -1,0 +1,27 @@
+@page "/inquiry/datalaporankeuangandebiturhistory/add"
+@page "/inquiry/datalaporankeuangandebiturhistory/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionHistoryComponent
+@using IFinancing360_SLIK_UI.Components.K01HistoryComponent
+
+<Card>
+	<Card>
+		<Title Text="Data Laporan Keuangan Debitur History (K01) Info" />
+
+		<FormTransactionHistoryForm ID="@ID" Link="datalaporankeuangandebiturhistory" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Data Laporan Keuangan Debitur History (K01) List" />
+
+			<K01HistoryDataGrid FormTransactionHistoryID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>

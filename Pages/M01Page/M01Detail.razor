@@ -1,0 +1,15 @@
+@page "/transaction/datapengurus/{FormTransactionID}/pengurus01/add"
+@page "/transaction/datapengurus/{FormTransactionID}/pengurus01/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.M01Component
+
+<Card>
+  <Title Text="Data Pengurus/Pemilik (M01) Info" />
+
+  <M01Form ID="@ID" FormTransactionID="@FormTransactionID" />
+</Card>
+
+@code {
+    [Parameter] public string? ID { get; set; }
+    [Parameter] public string? FormTransactionID { get; set; }
+}

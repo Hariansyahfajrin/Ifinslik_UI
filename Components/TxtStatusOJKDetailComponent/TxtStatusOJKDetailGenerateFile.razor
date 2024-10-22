@@ -1,0 +1,27 @@
+<RadzenStack>
+	<RadzenRow>
+		<FormFieldButtonLookup Name="SlikGroup" Label="Slik Group" Target="SlikGroupLookup" @bind-Value="@row.SlikGroup"
+			@bind-Text="@row.SysGeneralSubCodeSlikGroup" Required="true" />
+	</RadzenRow>
+	<RadzenRow>
+		<FormFieldButtonLookup Name="FormType" Label="Form Type" Target="FormTypeLookup" @bind-Value="@row.FormType"
+			@bind-Text="@row.SysGeneralSubCodeFormType" Required="true" />
+	</RadzenRow>
+</RadzenStack>
+
+<SingleSelectLookup @ref="@SlikGroupLookup" TItem="SysGeneralSubCodeModel" LoadData="LoadSlikGroupLookup"
+	Title="Slik Group List" Select="(select) => {
+								row.SlikGroup        = select.Code;
+								row.SysGeneralSubCodeSlikGroup = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="SysCompanyModel" Property="Code" Title="Code" />
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Description" Title="Description" />
+</SingleSelectLookup>
+<SingleSelectLookup @ref="@FormTypeLookup" TItem="SysGeneralSubCodeModel" LoadData="LoadFormTypeLookup"
+	Title="Form Type List" Select="(select) => {
+								row.FormType        = select.Code;
+								row.SysGeneralSubCodeFormType = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Code" Title="Code" />
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Description" Title="Description" />
+</SingleSelectLookup>

@@ -1,0 +1,20 @@
+<RadzenStack>
+	<RadzenRow Gap="8">
+		<RoleAccess Code="RC0000504">
+			<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+		</RoleAccess>
+		@* <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" /> *@
+	</RadzenRow>
+	<DataGrid @ref=@dataGrid ID="MasterTemplateDetailDataGrid" TItem="MasterTemplateDetailModel" LoadData="LoadData"
+		AllowSelected=false>
+		<DataGridColumn TItem="MasterTemplateDetailModel" Property="Description" Title="Description" Width="40%"
+			TextAlign="TextAlign.Left" Link=@(row =>
+			$"/setting/mastertemplate/{MasterTemplateID}/mastertemplatedetail/{row.ID}") />
+		<DataGridColumn TItem="MasterTemplateDetailModel" Property="FormatType" Title="Format Type" Width="20%"
+			TextAlign="TextAlign.Left" />
+		<DataGridColumn TItem="MasterTemplateDetailModel" Property="IsFix" Title="Fix" Width="20%"
+			TextAlign="TextAlign.Center" FormatString="YN" />
+		<DataGridColumn TItem="MasterTemplateDetailModel" Property="IsActive" Title="Active" Width="20%"
+			TextAlign="TextAlign.Center" FormatString="YN" />
+	</DataGrid>
+</RadzenStack>

@@ -1,0 +1,11 @@
+@page "/inquiry/datapengurushistory"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionHistoryComponent
+
+<RoleAccess Code="RA0000004">
+	<Card>
+		<Title Text="Data Pengurus/Pemilik History (M01) List" />
+
+		<FormTransactionHistoryDataGrid FormType="M01" Link="datapengurushistory" />
+	</Card>
+</RoleAccess>

@@ -1,0 +1,82 @@
+<RadzenTemplateForm TItem="MasterTemplateDetailModel" Data="@row" Submit=@OnSubmit>
+	<RadzenStack>
+		<RadzenRow Gap="8">
+			<RoleAccess Code="RC0000503">
+			<RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Text="Save" />
+</RoleAccess>
+@if(ID is not null){
+	<RoleAccess Code="RC0000548">
+			<RadzenButton ButtonStyle=@(row.IsActive == 1 ? ButtonStyle.Danger : ButtonStyle.Success) Text=@(row.IsActive
+			== 1 ? "Non Active" : "Active") Click="@ChangeStatus" />
+</RoleAccess>
+}
+
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Back" Click="@Back" />
+		</RadzenRow>
+
+
+		<RadzenStack>
+			@if (rowTemplate != null)
+			{
+				<RadzenRow>
+					<FormFieldTextBox Label="Template Code" Name="MasterTemplateCode" @bind-Value="@rowTemplate.Code" Max="50"
+						Required="true" Disabled="true"/>
+					<FormFieldTextBox Label="Template Description" Name="MaterTemplateDescription" @bind-Value="@rowTemplate.Description" Max="250"
+						Disabled="true" />
+				</RadzenRow>
+			}
+
+			@if (row != null)
+			{
+				<RadzenRow>
+					<FormFieldTextBox Label="Patch Periode" Name="PatchPeriode" @bind-Value="@row.PatchPeriode" Max="20"
+						Required="true" />
+					<FormFieldButtonLookup Name="FormatType" Label="Format Type" Target="formTypeLookup"
+						@bind-Value="@row.FormatType" @bind-Text="@(row.SysGeneralSubCodeFormatType)" Required="true" />
+					<FormFieldSwitch Name="IsActive" Label="Active" @bind-Value="@row.IsActive" Disabled="@(ID != null)" />
+				</RadzenRow>
+				<RadzenRow>
+					<FormFieldTextBox Label="Description" Name="Description" @bind-Value="@row.Description" Max="250"
+						Required="true" />
+					<FormFieldTextBox Label="Field Name" Name="FieldName" @bind-Value="@row.FieldName" Max="250"
+						Required="true" />
+					<FormFieldButtonLookup Name="RefferenceTypeCode" Label="Refference Type Code" Target="refferenceTypeLookup"
+						@bind-Value="@row.RefferenceTypeCode" @bind-Text="@(row.SysGeneralSubCodeRefferenceTypeCode)" Required="true" />
+				</RadzenRow>
+				<RadzenRow>
+					<FormFieldNumeric Label="Order Row" Name="OrderRow" @bind-Value="@row.OrderRow"  Required="true" />
+					<FormFieldSwitch Name="IsFix" Label="Fix" @bind-Value="@row.IsFix" />
+				</RadzenRow>
+				<RadzenRow>
+					@if (row.IsFix == 1)
+					{
+						<FormFieldNumeric Label="Fix Length" Name="FixLength" @bind-Value="@row.FixLength" 
+							Required="true" />
+						<FormFieldNumeric Label="Fix Length Filler" Name="FixLengthFiller" @bind-Value="@row.FixLengthFiller"
+						 Required="true" />
+						<FormFieldNumeric Label="Fix Length Filler Position" Name="FixLengthFillerPosition"
+							@bind-Value="@row.FixLengthFillerPosition"  Required="true" />
+					}
+				</RadzenRow>
+			}
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+
+<SingleSelectLookup @ref="@formTypeLookup" ID="FormTypeLookup" TItem="SysGeneralSubCodeModel" LoadData="LoadFormTypeLookup" Title="Code List"
+	Select="(select) => {
+									row.FormatType        = select.Code;
+									row.SysGeneralSubCodeFormatType = select.Description;
+								}">
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Code" Title="Code" />
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Description" Title="Description" />
+</SingleSelectLookup>
+
+<SingleSelectLookup @ref="@refferenceTypeLookup" ID="RefferenceTypeLookup" TItem="SysGeneralSubCodeModel" LoadData="LoadRefferenceTypeLookup"
+	Title="Code List" Select="(select) => {
+									row.RefferenceTypeCode        = select.Code;
+									row.SysGeneralSubCodeRefferenceTypeCode = select.Description;
+								}">
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Code" Title="Code" />
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Description" Title="Description" />
+</SingleSelectLookup>

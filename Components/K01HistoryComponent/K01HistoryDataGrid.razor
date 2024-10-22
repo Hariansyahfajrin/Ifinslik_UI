@@ -1,0 +1,19 @@
+<RadzenStack>
+	@* <RadzenRow Gap="8">
+  <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+  <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete"  />
+  </RadzenRow> *@
+	<DataGrid @ref=@dataGrid TItem="K01HistoryModel" LoadData="LoadData" AllowSelected=false>
+		<RadzenDataGridColumn TItem="K01HistoryModel" Title="Cif" Width="30%" TextAlign="TextAlign.Center">
+			<Template Context="row">
+				<RadzenLink
+					Path="@($"/inquiry/datalaporankeuangandebiturhistory/{FormTransactionHistoryID}/datalaporankeuangandebiturhistory01/{row.ID}")">
+					@row.Cif
+				</RadzenLink>
+			</Template>
+		</RadzenDataGridColumn>
+		<RadzenDataGridColumn TItem="K01HistoryModel" Property="NamaLengkap" Title="Nama Lengkap" Width="40%" />
+		<RadzenDataGridColumn TItem="K01HistoryModel" Property="TanggalLaporan" Title="Tanggal Laporan" Width="30%" />
+
+	</DataGrid>
+</RadzenStack>

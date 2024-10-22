@@ -1,0 +1,42 @@
+<RadzenStack>
+	<!-- #region Toolbar -->
+	<RadzenRow Gap="8">
+		<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Download template" Click="@Download" />
+		<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Upload Excel" Click="@Upload" />
+		@* <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" /> *@
+	</RadzenRow>
+
+	<RadzenRow>
+		<FormFieldButtonLookup Name="SlikGroup" Label="Slik Group" Target="SlikGroupLookup" @bind-Value="@row.SlikGroup"
+			@bind-Text="@row.SysGeneralSubCodeSlikGroup" Required="true" />
+		<FormFieldButtonLookup Name="Description" Label="Exclude Type" Target="DescriptionLookup"
+			@bind-Value="@row.Description" @bind-Text="@row.Description" Required="true" />
+	</RadzenRow>
+
+
+	<!-- #region List Data -->
+	<Title Text="Exclude Contract List" />
+
+	<DataGrid @ref=@dataGrid TItem="TxtStatusOJKDetailModel" LoadData="LoadData" AllowSelected=false>
+		<DataGridColumn TItem="TxtStatusOJKDetailModel" Property="FormType" Title="Periode" Width="50%"
+			TextAlign="TextAlign.Left">
+		</DataGridColumn>
+		<RadzenDataGridColumn TItem="TxtStatusOJKDetailModel" Property="Description" Title="No agreement" Width="50%" />
+	</DataGrid>
+	<!-- #endregion -->
+
+</RadzenStack>
+
+<SingleSelectLookup @ref="@SlikGroupLookup" TItem="SysGeneralSubCodeModel" LoadData="LoadSlikGroupLookup"
+	Title="Slik Group List" Select="(select) => {
+								row.SysGeneralSubCodeSlikGroup = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="SysCompanyModel" Property="Code" Title="Code" />
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Description" Title="Description" />
+</SingleSelectLookup>
+<SingleSelectLookup @ref="@DescriptionLookup" TItem="SysGeneralSubCodeModel" LoadData="LoadDescriptionLookup"
+	Title="Exclude Type List" Select="(select) => {
+								row.Description = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Description" Title="Description" />
+</SingleSelectLookup>

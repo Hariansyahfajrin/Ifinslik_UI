@@ -1,0 +1,15 @@
+@page "/transaction/datadebiturperorangan/{FormTransactionID}/debitur01/add"
+@page "/transaction/datadebiturperorangan/{FormTransactionID}/debitur01/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.D01Component
+
+<Card>
+  <Title Text="Data Debitur Perorangan (D01) Info" />
+
+  <D01Form ID="@ID" FormTransactionID="@FormTransactionID" />
+</Card>
+
+@code {
+  [Parameter] public string? ID { get; set; }
+  [Parameter] public string? FormTransactionID { get; set; }
+}

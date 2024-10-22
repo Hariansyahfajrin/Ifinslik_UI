@@ -1,0 +1,28 @@
+<RadzenStack>
+	<!-- #region Toolbar -->
+	<RadzenRow Gap="8">
+		<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+		@* <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete"  /> *@
+	</RadzenRow>
+	<!-- #endregion -->
+
+	<!-- #region List Data -->
+	<DataGrid @ref=@dataGrid TItem="FormTransactionHistoryModel" LoadData="LoadData" AllowSelected="false">
+		<RadzenDataGridColumn TItem="FormTransactionHistoryModel" Property="SysGeneralSubCodeFormType" Title="Form Type"
+			Width="30%" TextAlign="TextAlign.Center">
+			<Template Context="row">
+				<RadzenLink Path="@($"/inquiry/{Link}/" + row.ID)" Text="@row.SysGeneralSubCodeFormType" />
+			</Template>
+		</RadzenDataGridColumn>
+		<RadzenDataGridColumn TItem="FormTransactionHistoryModel" Property="SysGeneralSubCodeFinanceCompanyType"
+			Title="Company Type" Width="40%" />
+		<RadzenDataGridColumn TItem="FormTransactionHistoryModel" Property="Date" Title="Date" Width="30%"
+			TextAlign="TextAlign.Center">
+			<Template Context="row">
+				@(row.Date?.ToString("dd/MM/yyyy"))
+			</Template>
+		</RadzenDataGridColumn>
+	</DataGrid>
+	<!-- #endregion -->
+
+</RadzenStack>

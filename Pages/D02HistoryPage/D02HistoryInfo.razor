@@ -1,0 +1,27 @@
+@page "/inquiry/datadebiturbadanusahahistory/add"
+@page "/inquiry/datadebiturbadanusahahistory/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionHistoryComponent
+@using IFinancing360_SLIK_UI.Components.D02HistoryComponent
+
+<Card>
+	<Card>
+		<Title Text="Debitur Badan Usaha Historyy Info" />
+
+		<FormTransactionHistoryForm ID="@ID" Link="datadebiturbadanusahahistory" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Debitur Badan Usaha History List" />
+
+			<D02HistoryDataGrid FormTransactionHistoryID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>

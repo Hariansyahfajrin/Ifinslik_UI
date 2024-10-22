@@ -1,0 +1,42 @@
+@namespace IFinancing360_UI.Components
+
+@if (IsOpen)
+{
+	<div class="ifinancing360-modal">
+		<div class="ifinancing360-overlay" @onclick="Close"></div>
+		<div style="position: absolute; width: 90%; max-width: 768px; top: 10%; left: 50%; transform: translate(-50%, 0);">
+			<Card Variant="Variant.Filled" class="ifinancing360-modal-content">
+				<RadzenStack>
+					@HeaderTemplate
+					@Template
+				</RadzenStack>
+			</Card>
+		</div>
+	</div>
+}
+
+@code {
+	[Parameter]
+	public RenderFragment? Template { get; set; }
+	[Parameter]
+	public RenderFragment? HeaderTemplate { get; set; }
+
+	[Parameter]
+	public bool IsOpen { get; set; } = false;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+	}
+	public void Open()
+	{
+		IsOpen = true;
+		StateHasChanged();
+	}
+
+	public void Close()
+	{
+		IsOpen = false;
+		StateHasChanged();
+	}
+}

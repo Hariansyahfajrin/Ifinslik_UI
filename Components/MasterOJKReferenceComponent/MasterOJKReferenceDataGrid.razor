@@ -1,0 +1,26 @@
+<RadzenStack>
+	<RadzenRow Gap="8">
+		@if (!IsReadonly)
+		{
+			<RoleAccess Code="RC0000281">
+				<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" allowselected=true />
+			</RoleAccess>
+			@* <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" /> *@
+		}
+	</RadzenRow>
+
+	<DataGrid @ref=@dataGrid ID="MasterOJKReferenceDataGrid" TItem="MasterOJKReferenceModel" LoadData="LoadData"
+		AllowSelected=false>
+		<DataGridColumn TItem="MasterOJKReferenceModel" Title="Code" Width="20%" TextAlign="TextAlign.Center">
+			<Template Context="row">
+				<RadzenLink
+					Path="@($"/setting/generalcode/{GeneralCodeID}/generalsubcode/{GeneralSubCodeID}/masterojkreference/{row.ID}")">
+					@row.Code
+				</RadzenLink>
+			</Template>
+		</DataGridColumn>
+		<DataGridColumn TItem="MasterOJKReferenceModel" Property="Description" Title="Description" Width="50%" />
+		<DataGridColumn TItem="MasterOJKReferenceModel" Property="OJKCode" Title="Ojk Code" Width="15%" />
+		<DataGridColumn TItem="MasterOJKReferenceModel" Property="IsActive" Title="Active" Width="15%" FormatString="YN" />
+	</DataGrid>
+</RadzenStack>

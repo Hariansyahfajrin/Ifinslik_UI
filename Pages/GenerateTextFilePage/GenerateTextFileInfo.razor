@@ -1,0 +1,36 @@
+@page "/transaction/generatetext/add"
+@page "/transaction/generatetext/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.TxtStatusOJKComponent
+@using IFinancing360_SLIK_UI.Components.TxtStatusOJKDetailComponent
+
+<Card>
+	<Title Text="Generate Text File Info" />
+
+	<TxtStatusOJKForm @ref="@TxtStatusOJKForm" ID="@ID" />
+
+
+	@if (ID != null)
+	{
+		<Divider />
+
+		<RadzenTabs>
+			<Tabs>
+				<RadzenTabsItem Text="STATUS OJK">
+					<TxtStatusOJKDetailDataGrid TxtStatusOJKID="@ID" />
+				</RadzenTabsItem>
+				<RadzenTabsItem Text="GENERATE FILE">
+					<TxtStatusOJKDetailGenerateFile TxtStatusOJKID="@ID" />
+				</RadzenTabsItem>
+				<RadzenTabsItem Text="EXCLUDE CONTRACT">
+					<TxtStatusOJKDetailExcludeContract FinanceCompanyType="@(TxtStatusOJKForm.row.FinanceCompanyType)" />
+				</RadzenTabsItem>
+			</Tabs>
+		</RadzenTabs>
+	}
+</Card>
+
+@code {
+	[Parameter] public string? ID { get; set; }
+	TxtStatusOJKForm TxtStatusOJKForm = new TxtStatusOJKForm();
+}

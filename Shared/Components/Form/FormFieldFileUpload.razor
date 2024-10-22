@@ -1,0 +1,18 @@
+@namespace IFinancing360_UI.Components
+@using Helper.APIClient
+@inherits FormField<string>
+
+<FormField TValue="string" Name="@Name" Size="Size" Visible="@Visible" Disabled="@Disabled" Required="@Required"
+  Label="@Label" Style="@Style" @bind-Value="@Value">
+  <RadzenUpload Url="@URL" Accept="@Accept" ChooseText="Select File"
+    Complete="@(() => Console.WriteLine($"Upload Complete to {URL}") )" Error="@(e => Console.WriteLine(e.Message))">
+  </RadzenUpload>
+</FormField>
+
+@code {
+  [Parameter] public BaseHttpClient? HttpClient { get; set; }
+  [Parameter] public string? APIController { get; set; }
+  [Parameter] public string? Endpoint { get; set; }
+  [Parameter] public string? Accept { get; set; } = "image/*";
+  public string URL { get { return $"{HttpClient?.GetBaseUrl()}api/{APIController}/{Endpoint}"; } }
+}

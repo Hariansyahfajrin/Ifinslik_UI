@@ -1,0 +1,146 @@
+@namespace IFinancing360_UI.Components
+@typeparam TItem
+@using System.Reflection
+@* @inherits RadzenDataGridColumn<TItem> *@
+
+@if (FormatString == "YN")
+{
+	<RadzenDataGridColumn TItem="TItem" Property=@Property Title=@Title Width="@Width"
+		TextAlign="@( Radzen.TextAlign.Center)" MinWidth="100px" FilterValue="@(currentFilter)">
+		<FilterTemplate>
+			<RadzenListBox @bind-Value="currentFilter" ValueProperty="Value" TextProperty="Key" Style="width: 100%;"
+				Data="@(new Dictionary<string, int?> { { "All", null }, { "YES", 1 }, { "NO", -1 } })">
+			</RadzenListBox>
+		</FilterTemplate>
+		<Template Context="row">
+
+			@if (Template != null)
+			{
+				@Template(row)
+			}
+			else
+			{
+				@if (Link != null)
+				{
+					<RadzenLink Path="@(Link?.Invoke(row))">
+						<p style="@elipsisStyle" title="@Text?.Invoke(row)">
+							@(Text?.Invoke(row))
+						</p>
+					</RadzenLink>
+				}
+				else
+				{
+					<p style="@elipsisStyle" title="@Text?.Invoke(row)">
+						@(Text?.Invoke(row))
+					</p>
+				}
+			}
+		</Template>
+	</RadzenDataGridColumn>
+}
+else
+{
+	<RadzenDataGridColumn @ref="rzDataGridColumn" TItem="TItem" Property=@Property Title=@Title Width="@Width"
+		TextAlign="@(TextAlign ?? Radzen.TextAlign.Left)" MinWidth="100px">
+		<Template Context="row">
+
+			@if (Template != null)
+			{
+				@Template(row)
+			}
+			else
+			{
+				@if (Link != null)
+				{
+					<RadzenLink Path="@(Link?.Invoke(row))">
+						<p style="@elipsisStyle" title="@Text?.Invoke(row)">
+							@(Text?.Invoke(row))
+						</p>
+					</RadzenLink>
+				}
+				else
+				{
+					<p style="@elipsisStyle" title="@Text?.Invoke(row)">
+						@(Text?.Invoke(row))
+					</p>
+				}
+			}
+		</Template>
+	</RadzenDataGridColumn>
+
+}
+
+@code {
+	[Parameter] public string Property { get; set; } = "";
+	[Parameter] public string? Title { get; set; }
+	[Parameter] public string? Width { get; set; }
+	[Parameter] public string? FormatString { get; set; }
+	[Parameter] public RenderFragment<TItem>? Template { get; set; }
+	[Parameter] public RenderFragment<RadzenDataGridColumn<TItem>>? FilterTemplate { get; set; }
+	[Parameter] public TextAlign? TextAlign { get; set; }
+	[Parameter] public Func<TItem, string>? Text { get; set; }
+	[Parameter] public Func<TItem, string>? Link { get; set; }
+	string elipsisStyle = "overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block;";
+
+	public int? currentFilter { get; set; }
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		Text ??= (row) => GetValue(row)?.ToString() ?? "";
+	}
+
+	RadzenDataGridColumn<TItem>? rzDataGridColumn;
+	private object? GetValue(TItem row)
+	{
+		PropertyInfo? property = row?.GetType().GetProperty(Property);
+		Type? type = property?.PropertyType;
+
+		SetTextAlign(type);
+		StateHasChanged();
+
+
+		if (property?.PropertyType == typeof(DateTime?))
+		{
+			return (property?.GetValue(row, null) as DateTime?)?.ToString("dd/MM/yyyy");
+		}
+
+		if (property?.PropertyType == typeof(Boolint?))
+		{
+			return (property?.GetValue(row, null) as Boolint?)?.ToString("YN");
+		}
+
+		if (FormatString != null)
+		{
+			if (FormatString == "YN" && property != null)
+			{
+				int value = (int)(property.GetValue(row, null) ?? 0);
+				return value == 1 ? "YES" : "NO";
+			}
+
+			return string.Format("{0:" + FormatString + "}", property?.GetValue(row, null));
+		}
+
+		return property?.GetValue(row, null);
+	}
+	private Type? GetType(TItem row)
+	{
+		PropertyInfo? property = row?.GetType().GetProperty(Property);
+		Type? type = property?.PropertyType;
+
+		return type;
+	}
+
+	private void SetTextAlign(Type? type)
+	{
+		TextAlign ??= StandardTextAlignGroups.FirstOrDefault(x => x.Value.Any(y => y == type)).Key;
+	}
+
+	private Dictionary<TextAlign, List<Type>> StandardTextAlignGroups = new Dictionary<TextAlign, List<Type>>()
+{
+{ Radzen.TextAlign.Left, new List<Type>() { typeof(string) } },
+{ Radzen.TextAlign.Center, new List<Type>() { typeof(DateTime?), typeof(Boolint?) } },
+{ Radzen.TextAlign.Right, new List<Type>() { typeof(int?), typeof(decimal?) } },
+};
+
+}

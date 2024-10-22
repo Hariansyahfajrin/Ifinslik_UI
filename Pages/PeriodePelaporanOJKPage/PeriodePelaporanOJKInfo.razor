@@ -1,0 +1,15 @@
+@page "/transaction/periodepelaporanojk/add"
+@page "/transaction/periodepelaporanojk/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.BuktiBerhasilLaporComponent
+
+<Card>
+	<Title Text="Periode Pelaporan OJK Info" />
+
+	<BuktiBerhasilLaporForm ID="@ID" />
+
+</Card>
+
+@code {
+	[Parameter] public string? ID { get; set; }
+}

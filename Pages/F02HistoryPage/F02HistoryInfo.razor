@@ -1,0 +1,27 @@
+@page "/inquiry/datakreditjoinhistory/add"
+@page "/inquiry/datakreditjoinhistory/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionHistoryComponent
+@using IFinancing360_SLIK_UI.Components.F02HistoryComponent
+
+<Card>
+	<Card>
+		<Title Text="Data Kredit Join Account History (F02) Info" />
+
+		<FormTransactionHistoryForm ID="@ID" Link="datakreditjoinhistory" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Data Kredit Join Account History (F02) List" />
+
+			<F02HistoryDataGrid FormTransactionHistoryID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>

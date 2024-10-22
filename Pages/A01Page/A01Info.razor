@@ -1,0 +1,27 @@
+@page "/transaction/dataagunan/add"
+@page "/transaction/dataagunan/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionComponent
+@using IFinancing360_SLIK_UI.Components.A01Component
+
+<Card>
+	<Card>
+		<Title Text="Data Agunan (A01) Info" />
+
+		<FormTransactionForm ID="@ID" Link="dataagunan" FormType="A01" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Data Agunan (A01) List" />
+
+			<A01DataGrid FormTransactionID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>

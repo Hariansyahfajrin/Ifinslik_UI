@@ -1,0 +1,24 @@
+@page "/setting/generalcode/add"
+@page "/setting/generalcode/{ID}"
+@using IFinancing360_SLIK_UI.Components.SysGeneralCodeComponent
+@using IFinancing360_SLIK_UI.Components.SysGeneralSubCodeComponent
+
+<Card>
+	<Title Text="General Code Info" />
+
+	<SysGeneralCodeForm ID=@ID RowChanged="@((arg) => GeneralCode = arg)" />
+
+	@if (ID != null)
+	{
+		<Divider />
+
+		<Title Text="General SubCode List" />
+
+		<SysGeneralSubCodeDataGrid GeneralCodeID=@ID GeneralCode="@GeneralCode" />
+	}
+</Card>
+
+@code {
+	[Parameter] public string? ID { get; set; }
+	public SysGeneralCodeModel? GeneralCode { get; set; }
+}

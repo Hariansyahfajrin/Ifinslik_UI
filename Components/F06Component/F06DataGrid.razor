@@ -1,0 +1,23 @@
+<RadzenStack>
+	<RadzenRow Gap="8">
+		<RoleAccess Code="RC0000030">
+			<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+		</RoleAccess>
+		<RoleAccess Code="RD0000007">
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" />
+		</RoleAccess>
+	</RadzenRow>
+	<DataGrid @ref=@dataGrid TItem="F06Model" LoadData="LoadData" AllowSelected=true>
+		<RadzenDataGridColumn TItem="F06Model" Title="Nomor Rekening" Width="30%" TextAlign="TextAlign.Center">
+			<Template Context="row">
+				<RadzenLink Path="@($"/transaction/datafasilitas/{FormTransactionID}/datafasilitas06/{row.ID}")">
+					@row.NomorRekening
+				</RadzenLink>
+			</Template>
+		</RadzenDataGridColumn>
+		<RadzenDataGridColumn TItem="F06Model" Property="Cif" Title="Cif" Width="20%" />
+		<RadzenDataGridColumn TItem="F06Model" Property="NamaLengkap" Title="Nama Lengkap" Width="30%" />
+		<RadzenDataGridColumn TItem="F06Model" Property="KodeJenisFasilitasLainnyaDesc" Title="Jenis Fasilitas Lainnya"
+			Width="20" />
+	</DataGrid>
+</RadzenStack>

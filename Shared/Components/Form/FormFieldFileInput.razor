@@ -1,0 +1,100 @@
+@namespace IFinancing360_UI.Components
+@using Helper.APIClient
+@inherits FormField<string>
+
+<FormField TValue="string" Name="@Name" Size="Size" Visible="@Visible" Disabled="@Disabled" Required="@Required"
+  Label="@Label" Style="@Style" @bind-Value="@Value">
+  @if (string.IsNullOrEmpty(Value))
+  {
+    <RadzenFileInput @bind-FileName=@FileName @bind-FileSize=@FileSize TValue="string" class="w-100" Change=@(args =>
+    OnChange(args, "FileInput")) Error=@(args => OnError(args, "FileInput"))
+      InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" />
+  }
+  else
+  {
+    <RadzenStack Gap="8" AlignItems="AlignItems.Center">
+      <RadzenStack Orientation="Orientation.Horizontal" Style="Width: 100%;">
+        <RadzenButton ButtonStyle="ButtonStyle.Info" Text="Preview" Click=@PreviewClick Style="Width: 100%;" />
+        <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click=@DeleteClick Style="Width: 100%;" />
+      </RadzenStack>
+      <RadzenText Text="@Value" />
+    </RadzenStack>
+  }
+</FormField>
+
+
+@code {
+  [Parameter] public string? Accept { get; set; } = "*/*";
+  [Parameter] public EventCallback<FileRequest> Upload { get; set; } = default!;
+  [Parameter] public Func<Task<FileRequest>> Preview { get; set; } = default!;
+  [Parameter] public EventCallback Delete { get; set; } = default!;
+  public string? FileName { get; set; }
+  public long? FileSize { get; set; }
+
+  async void PreviewClick()
+  {
+    FileRequest file = await Preview.Invoke();
+
+    string extension = Path.GetExtension(file.Name).ReplaceFirst(".", "").ToLower();
+
+    string base64 = "data:{0}/{1};base64," + Convert.ToBase64String(file.Bytes ?? Array.Empty<byte>());
+
+    if (extension == "png" || extension == "jpg" || extension == "jpeg")
+    {
+      base64 = string.Format(base64, "image", extension);
+      await JSRuntime.InvokeVoidAsync("PreviewImage", base64, "_blank");
+    }
+    else if (extension == "pdf")
+    {
+      base64 = string.Format(base64, "application", extension);
+      await JSRuntime.InvokeVoidAsync("PreviewPDF", base64, "_blank");
+    }
+    else
+    {
+      Download(base64, file.Name);
+    }
+
+  }
+
+  async void Download(string base64, string fileName)
+  {
+    string extension = Path.GetExtension(fileName).ReplaceFirst(".", "").ToLower();
+
+    string downloadExt = extension switch
+    {
+      "doc" => "msword",
+      "docx" => "msword",
+      "xlsx" => "vnd.ms-excel",
+      "pptx" => "vnd.ms-powerpoint",
+      "txt" => "txt",
+      "zip" => "zip",
+      "odt" => "vnd.oasis.opendocument",
+      "7z" => "x-7z-compressed",
+      "rar" => "vnd.rar",
+    };
+    base64 = string.Format(base64, "application", downloadExt);
+
+    await JSRuntime.InvokeVoidAsync("DownloadFile", base64, fileName);
+  }
+
+  async void DeleteClick()
+  {
+    FileName = null;
+    await Delete.InvokeAsync();
+  }
+
+  async void OnChange(string value, string name)
+  {
+    Console.WriteLine($"{FileName} value changed");
+    await Upload.InvokeAsync(new FileRequest
+      {
+        Bytes = Convert.FromBase64String(value.Split("base64,").Last()),
+        Name = FileName,
+      });
+  }
+
+  void OnError(UploadErrorEventArgs args, string name)
+  {
+    Console.WriteLine($"{args.Message}");
+  }
+}

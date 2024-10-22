@@ -1,0 +1,132 @@
+@if (row != null)
+{
+				<RadzenTemplateForm TItem="K01Model" Data="@row" Submit=@OnSubmit>
+					<RadzenStack>
+						<RadzenRow Gap="8">
+									<RoleAccess Code="RC0000026">
+							<RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Text="Save" />
+</RoleAccess>
+							<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Back" Click="@Back" />
+						</RadzenRow>
+						<RadzenStack>
+				@if (row != null)
+				{
+
+									<RadzenRow>
+										<FormFieldButtonLookup Name="Cif" Label="CIF" Target="CifLookup" @bind-Value="@row.Cif" Text=@($"{row.Cif} | {row.NamaLengkap}")
+											Required="true" />
+										<FormFieldTextBox Label="Tanggal Laporan" Name="TanggalLaporan" @bind-Value="@row.TanggalLaporan" Max="6"
+											Required="true" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldNumeric Label="Aset" Name="Aset" @bind-Value="@row.Aset" Required="true" Format="#,#.00" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldNumeric Label="Aset Lancar" Name="AsetLancar" @bind-Value="@row.AsetLancar" Required="true"
+											Format="#,#.00" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldNumeric Label="Kas" Name="Kas" @bind-Value="@row.Kas" Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Piutang Usaha Lancar" Name="PiutangUsahaLancar" @bind-Value="@row.PiutangUsahaLancar"
+											Required="true" Format="#,#.00" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldNumeric Label="Investasi Lain Lancar" Name="InvestasiLainLancar"
+											@bind-Value="@row.InvestasiLainLancar" Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Aset Lancar Lain" Name="AsetLancarLain" @bind-Value="@row.AsetLancarLain"
+											Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Aset Tidak Lancar" Name="AsetTidakLancar" @bind-Value="@row.AsetTidakLancar"
+											Required="true" Format="#,#.00" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldNumeric Label="Piutang Usaha Tidak Lancar" Name="PiutangUsahaTidakLancar"
+											@bind-Value="@row.PiutangUsahaTidakLancar" Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Investasi Lain Tidak Lancar" Name="InvestasiLainTidakLancar"
+											@bind-Value="@row.InvestasiLainTidakLancar" Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Aset Tidak Lancar Lain" Name="AsetTidakLancarLain"
+											@bind-Value="@row.AsetTidakLancarLain" Required="true" Format="#,#.00" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldNumeric Label="Liabilitas" Name="Liabilitas" @bind-Value="@row.Liabilitas" Required="true"
+											Format="#,#.00" />
+										<FormFieldNumeric Label="Liabilitas Jangka Pendek" Name="LiabilitasJangkaPendek"
+											@bind-Value="@row.LiabilitasJangkaPendek" Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Pinjaman Jangka Pendek" Name="PinjamanJangkaPendek"
+											@bind-Value="@row.PinjamanJangkaPendek" Required="true" Format="#,#.00" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldNumeric Label="Utang Usaha Jangka Pendek" Name="UtangUsahaJangkaPendek"
+											@bind-Value="@row.UtangUsahaJangkaPendek" Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Liabilitas Jangka Pendek Lain" Name="LiabilitasJangkaPendekLain"
+											@bind-Value="@row.LiabilitasJangkaPendekLain" Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Liabilitas Jangka Panjang" Name="LiabilitasJangkaPanjang"
+											@bind-Value="@row.LiabilitasJangkaPanjang" Required="true" Format="#,#.00" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldNumeric Label="Pinjaman Jangka Panjang" Name="PinjamanJangkaPanjang"
+											@bind-Value="@row.PinjamanJangkaPanjang" Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Utang Usaha jangka Panjang" Name="UtangUsahajangkaPanjang"
+											@bind-Value="@row.UtangUsahajangkaPanjang" Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Liabilitas Jangka Panjang Lain" Name="LiabilitasJangkaPanjangLain"
+											@bind-Value="@row.LiabilitasJangkaPanjangLain" Required="true" Format="#,#.00" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldNumeric Label="Ekuitas" Name="Ekuitas" @bind-Value="@row.Ekuitas" Required="true"
+											Format="#,#.00" />
+										<FormFieldNumeric Label="Pendapatan Usaha" Name="PendapatanUsaha" @bind-Value="@row.PendapatanUsaha"
+											Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Beban Operasional" Name="BebanOperasional" @bind-Value="@row.BebanOperasional"
+											Required="true" Format="#,#.00" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldNumeric Label="Laba Rugi Bruto" Name="LabaRugiBruto" @bind-Value="@row.LabaRugiBruto"
+											Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Pendapatan Lain" Name="PendapatanLain" @bind-Value="@row.PendapatanLain"
+											Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Beban Lain" Name="BebanLain" @bind-Value="@row.BebanLain" Required="true"
+											Format="#,#.00" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldNumeric Label="Laba Rugi PreTax" Name="LabaRugiPreTax" @bind-Value="@row.LabaRugiPreTax"
+											Required="true" Format="#,#.00" />
+										<FormFieldNumeric Label="Laba Rugi Tahun Berjalan" Name="LabaRugiTahunBerjalan"
+											@bind-Value="@row.LabaRugiTahunBerjalan" Required="true" Format="#,#.00" />
+									</RadzenRow>
+									<RadzenRow>
+										<FormFieldButtonLookup Name="KodeKantorCabang" Label="Kantor Cabang" Target="KantorCabangLookup"
+											@bind-Value="@row.KodeKantorCabang" @bind-Text="@row.SysCompanyKantorCabang" Required="true" />
+										<FormFieldButtonLookup Name="OperasiData" Label="Operasi Data" Target="OperasiDataLookup"
+											@bind-Value="@row.OperasiData" @bind-Text="@row.OperasiDataDesc" Required="true" />
+
+									</RadzenRow>
+				}
+						</RadzenStack>
+					</RadzenStack>
+				</RadzenTemplateForm>
+}
+<SingleSelectLookup @ref="@KantorCabangLookup" TItem="SysCompanyModel" LoadData="LoadKantorCabangLookup"
+	Title="Kantor Cabang List" Select="(select) => {
+								row.KodeKantorCabang        = select.Code;
+								row.SysCompanyKantorCabang = select.Name;
+							}">
+	<RadzenDataGridColumn TItem="SysCompanyModel" Property="Code" Title="Code" />
+	<RadzenDataGridColumn TItem="SysCompanyModel" Property="Name" Title="Name" />
+</SingleSelectLookup>
+<SingleSelectLookup @ref="@CifLookup" TItem="D01Model" LoadData="LoadCifLookup" Title="Code List" Select="(select) =>
+{
+row.Cif = select.Cif;
+row.NamaLengkap = select.NamaLengkap;
+}">
+	<RadzenDataGridColumn TItem="D01Model" Property="Cif" Title="Cif" />
+	<RadzenDataGridColumn TItem="D01Model" Property="NamaLengkap" Title="Nama Badan Usaha" />
+</SingleSelectLookup>
+
+<SingleSelectLookup @ref="@OperasiDataLookup" TItem="MasterOJKReferenceModel" LoadData="LoadOperasiDataLookup"
+	Title="Operasi Data List" Select="(select) => {
+								row.OperasiData            = select.Code;
+								row.OperasiDataOJKCode     = select.OJKCode;
+								row.OperasiDataDesc        = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="OJKCode" Title="OJK Code" />
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="Description" Title="Description" />
+</SingleSelectLookup>

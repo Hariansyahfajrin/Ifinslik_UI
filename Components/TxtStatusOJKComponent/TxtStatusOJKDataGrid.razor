@@ -1,0 +1,24 @@
+<RadzenStack>
+	<!-- #region Toolbar -->
+	<RadzenRow Gap="8">
+		<RoleAccess Code="RC0000547">
+			<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+		</RoleAccess>
+		@* <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" /> *@
+	</RadzenRow>
+	<!-- #endregion -->
+
+	<!-- #region List Data -->
+	<DataGrid @ref=@dataGrid ID="TxtStatusOJKDataGrid" TItem="TxtStatusOJKModel" LoadData="LoadData"
+		AllowSelected="false">
+		<DataGridColumn TItem="TxtStatusOJKModel" Property="SysGeneralSubCodeFinanceCompanyType" Title="Company Type"
+			Width="50%" TextAlign="TextAlign.Center">
+			<Template Context="row">
+				<RadzenLink Path="@("/transaction/generatetext/" + row.ID)" Text="@row.SysGeneralSubCodeFinanceCompanyType" />
+			</Template>
+		</DataGridColumn>
+		<DataGridColumn TItem="TxtStatusOJKModel" Property="Date" Title="Date" Width="50%" />
+	</DataGrid>
+	<!-- #endregion -->
+
+</RadzenStack>

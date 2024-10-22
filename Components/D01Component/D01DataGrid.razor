@@ -1,0 +1,24 @@
+<RadzenStack>
+	<RadzenRow Gap="8">
+		<RoleAccess Code="RC0000017">
+			<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+		</RoleAccess>
+		<RoleAccess Code="RD0000001">
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" />
+		</RoleAccess>
+	</RadzenRow>
+	<DataGrid @ref=@dataGrid ID="D01DataGrid" TItem="D01Model" LoadData="LoadData" AllowSelected=true>
+		<DataGridColumn TItem="D01Model" Property="Cif" Title="Cif" Width="40%" TextAlign="TextAlign.Left" Link=@(row =>
+			$"/transaction/datadebiturperorangan/{FormTransactionID}/debitur01/{row.ID}") />
+		<DataGridColumn TItem="D01Model" Property="Nik" Title="Nomor Identitas" Width="20%" />
+		<DataGridColumn TItem="D01Model" Property="Nama" Title="Nama" Width="20%" />
+		<DataGridColumn TItem="D01Model" Property="TanggalLahir" Title="Tanggal Lahir" Width="20%"
+			TextAlign="TextAlign.Center">
+			<Template Context="row">
+				@(row.TanggalLahir?.ToString("dd/MM/yyyy"))
+			</Template>
+		</DataGridColumn>
+		<DataGridColumn TItem="D01Model" Property="JenisKelaminDesc" Title="Jenis Kelamin" Width="20%" />
+
+	</DataGrid>
+</RadzenStack>

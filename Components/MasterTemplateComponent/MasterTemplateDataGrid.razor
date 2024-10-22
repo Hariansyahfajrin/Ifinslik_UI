@@ -1,0 +1,24 @@
+<RadzenStack>
+	<!-- #region Toolbar -->
+	<RadzenRow Gap="8">
+		<RoleAccess Code="RC0000504">
+			<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+		</RoleAccess>
+		@* <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" /> *@
+	</RadzenRow>
+	<!-- #endregion -->
+
+	<!-- #region List Data -->
+	<DataGrid @ref=@dataGrid ID="MasterTemplateDataGrid" TItem="MasterTemplateModel" LoadData="LoadData"
+		AllowSelected="false">
+		<DataGridColumn TItem="MasterTemplateModel" Property="Description" Title="Description" Width="40%"
+			TextAlign="TextAlign.Left" Link="@(row => "/setting/mastertemplate/" + row.ID)" />
+		<DataGridColumn TItem="MasterTemplateModel" Property="SysGeneralSubCodeFinanceCompanyType"
+			Title="Finance Company Type" Width="20%" />
+		<DataGridColumn TItem="MasterTemplateModel" Property="SysGeneralSubCodeFormType" Title="Form Type" Width="20%" />
+		<DataGridColumn TItem="MasterTemplateModel" Property="IsActive" Title="Active" Width="20%"
+			TextAlign="TextAlign.Center" FormatString="YN" />
+	</DataGrid>
+	<!-- #endregion -->
+
+</RadzenStack>

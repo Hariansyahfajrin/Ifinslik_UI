@@ -1,0 +1,16 @@
+@namespace IFinancing360_UI.Components
+@inherits FormField<DateTime?>
+
+<FormField TValue="DateTime?" Name="@Name" Size="Size" Visible="@Visible" Disabled="@Disabled" Required="@Required"
+	Label="@Label" Style="@Style" @bind-Value="@Value">
+	<RadzenDatePicker TValue="DateTime?" Value="@Value" ValueChanged="@ValueChanged" Name="@Name" DateFormat="dd/MM/yyyy"
+		Disabled=Disabled AllowClear=AllowClear Change="@Change" class="d-block w-50" Style="@InputStyle" Min="@Min" Max="@Max" />
+	@ChildContent
+</FormField>
+
+@code {
+	[Parameter] public bool AllowClear { get; set; }
+	[Parameter] public string? InputStyle { get; set; }
+	[Parameter] public DateTime? Min { get; set; }
+	[Parameter] public DateTime? Max { get; set; }
+}

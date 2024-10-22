@@ -1,0 +1,163 @@
+@if (row != null)
+{
+	<RadzenTemplateForm TItem="F06HistoryModel" Data="@row" Submit=@OnSubmit>
+		<RadzenStack>
+			<RadzenRow Gap="8">
+				@* <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Text="Save" /> *@
+
+				<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Back" Click="@Back" />
+			</RadzenRow>
+			<RadzenStack>
+				@if (row != null)
+				{
+					<RadzenRow>
+						<FormFieldButtonLookup Name="NomorRekening" Label="Nomor Rekening" Target="NomorRekeningLookup"
+							@bind-Value="@row.NomorRekening" @bind-Text="@row.NomorRekening" Required="true" />
+						<FormFieldTextBox Label="Cif" Name="Cif" @bind-Value="@row.Cif" Max="50" Required="true" Disabled="true" />
+						<FormFieldButtonLookup Name="KodeJenisFasilitasLainnya" Label="Jenis Fasilitas Lainnya"
+							Target="JenisFasilitasLainnyaLookup" @bind-Value="@row.KodeJenisFasilitasLainnya"
+							@bind-Text="@row.KodeJenisFasilitasLainnyaDesc" Required="true" Disabled="true" />
+					</RadzenRow>
+					<RadzenRow>
+						<FormFieldButtonLookup Name="SumberDana" Label="Sumber Dana" Target="SumberDanaLookup"
+							@bind-Value="@row.SumberDana" @bind-Text="@row.SumberDanaDesc" Required="true" Disabled="true" />
+						<FormFieldDatePicker Label="Tanggal Mulai" Name="TanggalMulai" @bind-Value="@row.TanggalMulai" Required="true"
+							Disabled="true" />
+						<FormFieldDatePicker Label="Tanggal Jatuh Tempo" Name="TanggalJatuhTempo" @bind-Value="@row.TanggalJatuhTempo"
+							Required="true" Disabled="true" />
+					</RadzenRow>
+					<RadzenRow>
+						<FormFieldTextBox Label="Period" Name="Period" @bind-Value="@row.Period" Max="50" Required="true"
+							Disabled="true" />
+					</RadzenRow>
+					<RadzenRow>
+						<FormFieldNumeric Label="Presentase Suku Bunga" Name="PresentaseSukuBunga"
+							@bind-Value="@row.PresentaseSukuBunga" Required="true" Disabled="true" Format="#,#.00" />
+						<FormFieldButtonLookup Name="KodeValuta" Label="Valuta" Target="ValutaLookup" @bind-Value="@row.KodeValuta"
+							@bind-Text="@row.KodeValutaDesc" Required="true" Disabled="true" />
+						<FormFieldNumeric Label="Nominal Jumlah Kewajiban" Name="NominalJumlahKewajiban"
+							@bind-Value="@row.NominalJumlahKewajiban" Required="true" Disabled="true" Format="#,#.00" />
+					</RadzenRow>
+					<RadzenRow>
+						<FormFieldNumeric Label="Nilai Dalam Mata Uang Asal" Name="NilaiDalamMataUangAsal"
+							@bind-Value="@row.NilaiDalamMataUangAsal" Required="true" Disabled="true" Format="#,#.00" />
+						<FormFieldButtonLookup Name="KodeKolektibilitas" Label="Kolektibilitas" Target="KolektibilitasLookup"
+							@bind-Value="@row.KodeKolektibilitas" @bind-Text="@row.KodeKolektibilitasDesc" Required="true"
+							Disabled="true" />
+						<FormFieldDatePicker Label="Tanggal Macet" Name="TanggalMacet" @bind-Value="@row.TanggalMacet" Required="true"
+							Disabled="true" />
+					</RadzenRow>
+					<RadzenRow>
+						<FormFieldButtonLookup Name="KodeSebabMacet" Label="Sebab Macet" Target="SebabMacetLookup"
+							@bind-Value="@row.KodeSebabMacet" @bind-Text="@row.KodeSebabMacetDesc" Required="true" Disabled="true" />
+						<FormFieldNumeric Label="Tunggakan" Name="Tunggakan" @bind-Value="@row.Tunggakan" Required="true"
+							Disabled="true" Format="#,#.00" />
+						<FormFieldNumeric Label="Jumlah Hari Tunggakan" Name="JumlahHariTunggakan"
+							@bind-Value="@row.JumlahHariTunggakan" Required="true" Disabled="true" Format="#,#.00" />
+					</RadzenRow>
+					<RadzenRow>
+						<FormFieldButtonLookup Name="KodeKondisi" Label="Kondisi" Target="KondisiLookup" @bind-Value="@row.KodeKondisi"
+							@bind-Text="@row.KodeKondisiDesc" Required="true" Disabled="true" />
+						<FormFieldDatePicker Label="Tanggal Kondisi" Name="TanggalKondisi" @bind-Value="@row.TanggalKondisi"
+							Required="true" Disabled="true" />
+						<FormFieldTextArea Label="Keterangan" Name="Keterangan" @bind-Value="@row.Keterangan" Max="50" Required="true"
+							Disabled="true" />
+					</RadzenRow>
+					<RadzenRow>
+
+						<FormFieldButtonLookup Name="KodeKantorCabang" Label="Kantor Cabang" Target="KantorCabangLookup"
+							@bind-Value="@row.KodeKantorCabang" @bind-Text="@row.SysCompanyKantorCabang" Required="true"
+							Disabled="true" />
+						<FormFieldButtonLookup Name="OperasiData" Label="Operasi Data" Target="OperasiDataLookup"
+							@bind-Value="@row.OperasiData" @bind-Text="@row.OperasiDataDesc" Required="true" Disabled="true" />
+					</RadzenRow>
+
+				}
+			</RadzenStack>
+		</RadzenStack>
+	</RadzenTemplateForm>
+}
+<SingleSelectLookup @ref="@JenisFasilitasLainnyaLookup" TItem="MasterOJKReferenceModel"
+	LoadData="LoadJenisFasilitasLainnyaLookup" Title="Code List" Select="(select) => {
+								row.KodeJenisFasilitasLainnya            = select.Code;
+								row.KodeJenisFasilitasLainnyaOJKCode     = select.OJKCode;
+								row.KodeJenisFasilitasLainnyaDesc        = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="OJKCode" Title="OJK Code" />
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="Description" Title="Description" />
+</SingleSelectLookup>
+<SingleSelectLookup @ref="@KantorCabangLookup" TItem="SysCompanyModel" LoadData="LoadKantorCabangLookup"
+	Title="Kantor Cabang List" Select="(select) => {
+								row.KodeKantorCabang        = select.Code;
+								row.SysCompanyKantorCabang = select.Name;
+							}">
+	<RadzenDataGridColumn TItem="SysCompanyModel" Property="Code" Title="Code" />
+	<RadzenDataGridColumn TItem="SysCompanyModel" Property="Name" Title="Name" />
+</SingleSelectLookup>
+
+<SingleSelectLookup @ref="@NomorRekeningLookup" TItem="F01HistoryModel" LoadData="LoadNomorRekeningLookup"
+	Title="Nomor Rekening List" Select="(select) => {
+                row.NomorRekening = select.NomorRekening;
+                row.Cif = select.Cif;
+                row.NamaLengkap =select.NamaLengkap;
+              }">
+	<RadzenDataGridColumn TItem="F01HistoryModel" Property="NomorRekening" Title="Nomor Rekening" />
+	<RadzenDataGridColumn TItem="F01HistoryModel" Property="Cif" Title="Cif" />
+	<RadzenDataGridColumn TItem="F01HistoryModel" Property="NamaLengkap" Title="Nama lengkap" />
+</SingleSelectLookup>
+
+<SingleSelectLookup @ref="@OperasiDataLookup" TItem="MasterOJKReferenceModel" LoadData="LoadOperasiDataLookup"
+	Title="Operasi Data List" Select="(select) => {
+								row.OperasiData            = select.Code;
+								row.OperasiDataOJKCode     = select.OJKCode;
+								row.OperasiDataDesc        = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="OJKCode" Title="OJK Code" />
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="Description" Title="Description" />
+</SingleSelectLookup>
+
+<SingleSelectLookup @ref="@ValutaLookup" TItem="MasterOJKReferenceModel" LoadData="LoadValutaLookup" Title="Valuta List"
+	Select="(select) => {
+								row.KodeValuta            = select.Code;
+								row.KodeValutaOJKCode     = select.OJKCode;
+								row.KodeValutaDesc        = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="OJKCode" Title="OJK Code" />
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="Description" Title="Description" />
+</SingleSelectLookup>
+<SingleSelectLookup @ref="@SumberDanaLookup" TItem="MasterOJKReferenceModel" LoadData="LoadSumberDanaLookup"
+	Title="Sumber Dana List" Select="(select) => {
+								row.SumberDana            = select.Code;
+								row.SumberDanaOJKCode     = select.OJKCode;
+								row.SumberDanaDesc        = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="OJKCode" Title="OJK Code" />
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="Description" Title="Description" />
+</SingleSelectLookup>
+<SingleSelectLookup @ref="@KolektibilitasLookup" TItem="MasterOJKReferenceModel" LoadData="LoadKolektibilitasLookup"
+	Title="Kolektibilitas List" Select="(select) => {
+								row.KodeKolektibilitas            = select.Code;
+								row.KodeKolektibilitasOJKCode     = select.OJKCode;
+								row.KodeKolektibilitasDesc        = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="OJKCode" Title="OJK Code" />
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="Description" Title="Description" />
+</SingleSelectLookup>
+<SingleSelectLookup @ref="@SebabMacetLookup" TItem="MasterOJKReferenceModel" LoadData="LoadSebabMacetLookup"
+	Title="Sebab Macet List" Select="(select) => {
+								row.KodeSebabMacet            = select.Code;
+								row.KodeSebabMacetOJKCode     = select.OJKCode;
+								row.KodeSebabMacetDesc        = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="OJKCode" Title="OJK Code" />
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="Description" Title="Description" />
+</SingleSelectLookup>
+<SingleSelectLookup @ref="@KondisiLookup" TItem="MasterOJKReferenceModel" LoadData="LoadKondisiLookup"
+	Title="Kondisi List" Select="(select) => {
+								row.KodeKondisi            = select.Code;
+								row.KodeKondisiOJKCode     = select.OJKCode;
+								row.KodeKondisiDesc        = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="OJKCode" Title="OJK Code" />
+	<RadzenDataGridColumn TItem="MasterOJKReferenceModel" Property="Description" Title="Description" />
+</SingleSelectLookup>

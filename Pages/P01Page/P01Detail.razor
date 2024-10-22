@@ -1,0 +1,16 @@
+@page "/transaction/datapenjamin/{FormTransactionID}/Penjamin02/add"
+@page "/transaction/datapenjamin/{FormTransactionID}/Penjamin02/{ID}"
+
+
+@using IFinancing360_SLIK_UI.Components.P01Component
+
+<Card>
+  <Title Text="Data Penjamin (P01) Info" />
+
+  <P01Form ID="@ID" FormTransactionID="@FormTransactionID" />
+</Card>
+
+@code {
+  [Parameter] public string? ID { get; set; }
+  [Parameter] public string? FormTransactionID { get; set; }
+}

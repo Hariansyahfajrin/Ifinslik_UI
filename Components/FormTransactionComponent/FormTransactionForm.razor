@@ -1,0 +1,46 @@
+<!-- #region Form -->
+<RadzenTemplateForm TItem="FormTransactionModel" Data="@row" Submit=@OnSubmit>
+	<RadzenStack>
+		<!-- #region Toolbar -->
+		<RadzenRow Gap="8">
+			<RadzenButton ButtonType="ButtonType.Submit" Text="Save" />
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Back" Click="@Back" />
+		</RadzenRow>
+		<!-- #endregion -->
+
+		<RadzenStack>
+			<RadzenRow>
+				<FormFieldButtonLookup Name="PeriodePelaporan" Label="Periode Pelaporan" Target="PeriodePelaporanLookup"
+					@bind-Value="@row.PeriodePelaporan" @bind-Text="@row.PeriodePelaporan" Required="true"
+					Disabled="@(ID != null)" />
+				<FormFieldButtonLookup Name="FormType" Label="Form Type" Target="FormTypeLookup" @bind-Value="@row.FormType"
+					@bind-Text="@row.SysGeneralSubCodeFormType" Required="true" Disabled />
+				<FormFieldDropdown TValue="string" Label="Company Type" Name="FinanceCompanyType" ValueProperty="Key"
+					TextProperty="Value" Items="@typeCompanys" @bind-Value="@row.FinanceCompanyType" Required="true" Disabled />
+				<FormFieldDatePicker Label="Date" Name="Date" @bind-Value="@row.Date" Required="true"
+					Disabled="@(ID != null || row.Date == null)" Min="@(MinDate)" Max="@(MaxDate)" />
+			</RadzenRow>
+
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+<SingleSelectLookup @ref="@FormTypeLookup" TItem="SysGeneralSubCodeModel" LoadData="LoadFormTypeLookup"
+	Title="Code List" Select="(select) => {
+								row.FormType        = select.Code;
+								row.SysGeneralSubCodeFormType = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Code" Title="Code" />
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Description" Title="Description" />
+</SingleSelectLookup>
+<SingleSelectLookup @ref="@PeriodePelaporanLookup" TItem="BuktiBerhasilLaporModel" LoadData="LoadPeriodePelaporanLookup"
+	Title="Periode Pelaporan List" Select="(select) => {
+								string periode = select.PeriodePelaporan;
+								int month = int.Parse(periode.Substring(4, 2));
+								int year = int.Parse(periode.Substring(0, 4));
+								row.Date = new DateTime(year, month, 1);
+								row.PeriodePelaporan = periode;
+								row.FinanceCompanyType = select.FinanceCompanyType;
+							}">
+	<RadzenDataGridColumn TItem="BuktiBerhasilLaporModel" Property="PeriodePelaporan" Title="Periode Pelaporan" />
+	<RadzenDataGridColumn TItem="BuktiBerhasilLaporModel" Property="FinanceCompanyType" Title="Company Type" />
+</SingleSelectLookup>

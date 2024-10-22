@@ -1,0 +1,18 @@
+<RadzenStack>
+	<RadzenRow Gap="8">
+		<RoleAccess Code="RC0000019">
+			<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+		</RoleAccess>
+		<RoleAccess Code="RD0000002">
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" />
+		</RoleAccess>
+	</RadzenRow>
+	<DataGrid @ref=@dataGrid ID="D02DataGrid" TItem="D02Model" LoadData="LoadData" AllowSelected=true>
+		<DataGridColumn TItem="D02Model" Property="Cif" Title="Cif" Width="40%" TextAlign="TextAlign.Left" Link=@(row =>
+			$"/transaction/datadebiturbadanusaha/{FormTransactionID}/debitur02/{row.ID}") />
+		<DataGridColumn TItem="D02Model" Property="NomorIdentitasBadanUsaha" Title="Identitas Badan Usaha" Width="20%" />
+		<DataGridColumn TItem="D02Model" Property="NamaBadanUsaha" Title="Nama Nadan Usaha" Width="20%" />
+		<DataGridColumn TItem="D02Model" Property="KodeJenisBadanUsahaDesc" Title="Jenis Badan Usaha" Width="20%" />
+
+	</DataGrid>
+</RadzenStack>

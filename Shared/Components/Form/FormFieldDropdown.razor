@@ -1,0 +1,49 @@
+@namespace IFinancing360_UI.Components
+@typeparam TValue
+@using System.Reflection
+@using System.Collections
+@inherits FormField<TValue>
+
+<FormField TValue="TValue" Name="@Name" Size="Size" Visible="@Visible" Label="@Label" Style="@Style"
+	@bind-Value="@Value">
+	<RadzenDropDown TValue="TValue" Data="Items" Value="@Value" ValueChanged="@ValueChanged" TextProperty="@TextProperty"
+		ValueProperty="@ValueProperty" AllowClear=@(AllowClear) Placeholder="@(Placeholder ?? $"Select {Label}")"
+		class="d-block" Name="@Name" Style="@InputStyle" Disabled="@Disabled" Change="() => Change.InvokeAsync(Value)" />
+	@ChildContent
+</FormField>
+
+@code {
+	[Parameter, EditorRequired] public IEnumerable Items { get; set; } = new Dictionary<string, TValue>();
+	[Parameter] public string TextProperty { get; set; } = "Key";
+	[Parameter] public string ValueProperty { get; set; } = "Value";
+	[Parameter] public string? InputStyle { get; set; }
+	[Parameter] public bool AllowClear { get; set; } = false;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (Value == null)
+		{
+			var dataAsQuery = Items.AsQueryable();
+
+			PropertyInfo propertyInfo = dataAsQuery.First().GetType().GetProperty(ValueProperty);
+
+			if (propertyInfo != null)
+			{
+				// Ambil nilai properti
+				object? propertyValue = propertyInfo.GetValue(dataAsQuery.First(), null);
+
+				// Konversi nilai properti ke TValue
+				if (propertyValue is TValue convertedValue)
+				{
+					await ValueChanged.InvokeAsync(convertedValue);
+				}
+				else
+				{
+					// Penanganan jika konversi gagal (misalnya tipe tidak cocok)
+					throw new InvalidCastException($"Cannot convert property value to {typeof(TValue).Name}");
+				}
+			}
+		}
+		await base.OnInitializedAsync();
+	}
+}

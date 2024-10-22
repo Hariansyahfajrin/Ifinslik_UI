@@ -1,0 +1,56 @@
+<!-- #region Form -->
+<RadzenTemplateForm TItem="MasterTemplateModel" Data="@row" Submit=@OnSubmit>
+	<RadzenStack>
+		<!-- #region Toolbar -->
+		<RadzenRow Gap="8">
+			<RoleAccess Code="RC0000503">
+				<RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Text="Save" />
+			</RoleAccess>
+			@if (ID != null)
+			{
+				<RoleAccess Code="RC0000548">
+					<RadzenButton ButtonStyle=@(row.IsActive == 1 ? ButtonStyle.Danger : ButtonStyle.Success) Text=@(row.IsActive ==
+					1 ? "Non Active" : "Active") Click="@ChangeStatus" />
+				</RoleAccess>
+			}
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Back" Click="@Back" />
+		</RadzenRow>
+		<!-- #endregion -->
+
+		<RadzenStack>
+			<RadzenRow>
+				@* <FormFieldTextBox Label="Code" Name="Code" @bind-Value="@row.Code" Max="50" Required="true"
+				Disabled="@(ID != null)" /> *@
+				<FormFieldTextBox Label="Description" Name="Description" @bind-Value="@row.Description" Max="250"
+					Required="true" />
+				<FormFieldSwitch Name="IsActive" Label="Active" @bind-Value="@row.IsActive" Disabled="@(ID != null)" />
+			</RadzenRow>
+			<RadzenRow>
+				<FormFieldDropdown TValue="string" Label="Company Type" Name="FinanceCompanyType" ValueProperty="Key"
+					TextProperty="Value" Items="@typeCompanys" @bind-Value="@row.FinanceCompanyType" Required="true" />
+				<FormFieldButtonLookup Name=" FormType" Label="FormType" Target="FormTypeLookup" @bind-Value="@row.FormType"
+					@bind-Text="@(row.SysGeneralSubCodeFormType)" Required="true" />
+			</RadzenRow>
+			<RadzenRow>
+				<FormFieldTextBox Label="Prefix For Item" Name="DelimiterStart" @bind-Value="@row.DelimiterStart" Max="1"
+					Required="false" />
+				<FormFieldTextBox Label="Delimiter Column for Item" Name="DelimiterCenter" @bind-Value="@row.DelimiterCenter"
+					Max="1" Required="true" />
+				<FormFieldTextBox Label="Postfix form Item" Name="DelimiterEnd" @bind-Value="@row.DelimiterEnd" Max="1"
+					Required="true" />
+			</RadzenRow>
+
+
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+<!-- #endregion -->
+
+<SingleSelectLookup @ref="@FormTypeLookup" ID="FormTypeLookup" TItem="SysGeneralSubCodeModel"
+	LoadData="LoadFormTypeLookup" Title="Code List" Select="(select) => {
+								row.FormType            = select.Code;
+								row.SysGeneralSubCodeFormType = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Code" Title="Code" />
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Description" Title="Description" />
+</SingleSelectLookup>

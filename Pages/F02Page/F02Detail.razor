@@ -1,0 +1,15 @@
+@page "/transaction/datakreditjoin/{FormTransactionID}/datakreditjoin02/add"
+@page "/transaction/datakreditjoin/{FormTransactionID}/datakreditjoin02/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.F02Component
+
+<Card>
+  <Title Text="Data Kredit Join Account (F02) Info" />
+
+  <F02Form ID="@ID" FormTransactionID="@FormTransactionID" />
+</Card>
+
+@code {
+  [Parameter] public string? ID { get; set; }
+  [Parameter] public string? FormTransactionID { get; set; }
+}

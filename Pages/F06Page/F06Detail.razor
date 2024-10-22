@@ -1,0 +1,15 @@
+@page "/transaction/datafasilitas/{FormTransactionID}/datafasilitas06/add"
+@page "/transaction/datafasilitas/{FormTransactionID}/datafasilitas06/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.F06Component
+
+<Card>
+  <Title Text="Data Fasilitas Lainnya (F06) Info" />
+
+  <F06Form ID="@ID" FormTransactionID="@FormTransactionID" />
+</Card>
+
+@code {
+  [Parameter] public string? ID { get; set; }
+  [Parameter] public string? FormTransactionID { get; set; }
+}

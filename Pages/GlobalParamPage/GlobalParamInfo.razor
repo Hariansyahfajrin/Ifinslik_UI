@@ -1,0 +1,14 @@
+@page "/controlpanel/globalparam/add"
+@page "/controlpanel/globalparam/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.SysGlobalParamComponent
+
+<Card>
+	<Title Text="Global Param Info" />
+
+	<SysGlobalParamForm ID="@ID" />
+</Card>
+
+@code {
+	[Parameter] public string? ID { get; set; }
+}

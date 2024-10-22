@@ -1,0 +1,26 @@
+<RadzenStack>
+	@* <RadzenRow Gap="8">
+  <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+  <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete"  />
+  </RadzenRow> *@
+	<DataGrid @ref=@dataGrid TItem="P01HistoryModel" LoadData="LoadData" AllowSelected=false>
+		<RadzenDataGridColumn TItem="P01HistoryModel" Title="NomorIdentitas" Width="20%" TextAlign="TextAlign.Center">
+			<Template Context="row">
+				<RadzenLink Path="@($"/inquiry/datapenjaminhistory/{FormTransactionHistoryID}/penjaminhistory02/{row.ID}")">
+					@row.NomorIdentitas
+				</RadzenLink>
+			</Template>
+		</RadzenDataGridColumn>
+		<RadzenDataGridColumn TItem="P01HistoryModel" Property="NomorRekening" Title="Nomor Rekening" Width="15%" />
+		<RadzenDataGridColumn TItem="P01HistoryModel" Property="Cif" Title="Cif" Width="15%" />
+		<RadzenDataGridColumn TItem="P01HistoryModel" Property="NamaPenjamin" Title="Nama Lengkap" Width="20%" />
+		<RadzenDataGridColumn TItem="P01HistoryModel" Property="NamaLengkapPenjamin" Title="Nama Penjamin" Width="15%" />
+		<RadzenDataGridColumn TItem="P01HistoryModel" Property="PresentaseDijamin" Title="Presentase Dijamin" Width="15%">
+			<Template Context="row">
+				@(string.Format("{0:0,0.00}", row.PresentaseDijamin))
+			</Template>
+		</RadzenDataGridColumn>
+
+
+	</DataGrid>
+</RadzenStack>

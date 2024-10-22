@@ -1,0 +1,297 @@
+@typeparam TItem
+@namespace IFinancing360_UI.Components
+@* @implements IDisposable *@
+
+
+<RadzenStack AlignItems="AlignItems.End" Gap="8">
+	<RadzenTextBox @ref=@search Placeholder="Search" Value="@keyword" ValueChanged="@((value) => Search(value))"
+		style="width: 25%;" @oninput="HandleInput" />
+
+	<RadzenDataGrid @ref=@rzDataGrid Data="@Rows" LoadData="@Load" TItem="TItem" AllowColumnResize="true"
+		AllowPaging="true" AllowFiltering="true" AllowSorting="true" RowDoubleClick="@OnDoubleClickRow"
+		AllowRowSelectOnRowClick="false" PagerHorizontalAlign="HorizontalAlign.Right" PageSizeOptions="@pageSizeOptions"
+		ShowPagingSummary="true" PageSize="@pageSize" PagingSummaryFormat="@pagingSummaryFormat"
+		GridLines="DataGridGridLines.Both" FilterMode="FilterMode.Advanced"
+		FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Count="@Count"
+		SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedData IsLoading=@isLoading
+		style="border-radius: 0.5rem; overflow: auto; width: 100%;">
+		<Columns>
+			@if (AllowSelected)
+			{
+				<RadzenDataGridColumn TItem="TItem" Width="3rem" Sortable="false" Filterable="false" Resizable="false"
+					TextAlign="TextAlign.Center" HeaderCssClass="text-center" OrderIndex="-1">
+					<HeaderTemplate>
+						<RadzenCheckBox TriState="false" TValue="bool?"
+							InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select all items" }})"
+							Value="@SelectAll" Change="@(args => selectedData = args == true && Data != null ? Data.ToList() : [])"
+							Style="margin: auto" />
+					</HeaderTemplate>
+
+					<Template Context="data">
+						<RadzenCheckBox TriState="false" Value="@(selectedData != null && selectedData.Contains(data))"
+							InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select item" }})" TValue="bool"
+							Change=@(args => { if(AllowSelected) { rzDataGrid.SelectRow(data); }}) Style="margin: auto" />
+					</Template>
+				</RadzenDataGridColumn>
+			}
+
+			<RadzenDataGridColumn TItem="TItem" TextAlign="TextAlign.Center" Width="3.25rem" Sortable="false"
+				Filterable="false" Resizable="false" Title="No" HeaderCssClass="text-center" OrderIndex="-1">
+				<Template Context="row">
+					@(Rows?.IndexOf(row, 0) + 1 + rzDataGrid.CurrentPage * pageSize)
+				</Template>
+			</RadzenDataGridColumn>
+
+			@ChildContent
+		</Columns>
+
+	</RadzenDataGrid>
+</RadzenStack>
+
+@code {
+	#region Parameters
+	[Parameter, EditorRequired] public RenderFragment? ChildContent { get; set; }
+
+	[Parameter, EditorRequired] public string? ID { get; set; }
+	[Parameter, EditorRequired] public Func<string?, Task<List<TItem>?>> LoadData { get; set; } = default!;
+	[Parameter] public bool AllowSelected { get; set; } = false;
+
+	[Parameter] public bool SaveSession { get; set; } = true;
+	[Parameter] public TItem? Filter { get; set; }
+	[Parameter] public EventCallback<TItem> FilterChanged { get; set; }
+	#endregion
+
+	#region Component Reference
+	private RadzenTextBox search = new();
+	public RadzenDataGrid<TItem> rzDataGrid = new();
+	#endregion
+
+	#region Properties
+	public List<TItem>? Data { get; set; } = null;
+	public List<TItem>? Rows { get; set; } = null;
+	private bool SelectAll
+	{
+		get
+		{
+			return selectedData == null || selectedData.Count == 0 || Data == null ? false : Data.All(i =>
+			selectedData.Contains(i));
+		}
+	}
+	public int Count { get; set; }
+	#endregion
+
+	#region Variables
+	public IList<TItem> selectedData = [];
+	public string keyword = "";
+	private string pagingSummaryFormat = "Displaying page {0} of {1} <b>(total {2} records)</b>";
+	private int pageSize = 10;
+	private int[] pageSizeOptions = new int[] { 10, 25, 50, 100 };
+	protected new bool isLoading = false;
+	#endregion
+
+	public class DataGridArgs : LoadDataArgs
+	{
+		public string Keyword { get; set; } = "";
+		public int Page { get; set; }
+
+		public TItem? AdditionalFilter { get; set; }
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		await base.OnInitializedAsync();
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		ID = $"DataGrid_" + (string.IsNullOrEmpty(ID) ? typeof(TItem).Name : ID);
+		await base.OnParametersSetAsync();
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+
+		if (firstRender && SaveSession)
+		{
+			await GetSessionValues();
+			StateHasChanged();
+		}
+
+		await base.OnAfterRenderAsync(firstRender);
+	}
+
+	public override void Dispose()
+	{
+		base.Dispose();
+	}
+
+	private async Task GetSessionValues()
+	{
+		var result = await session.GetAsync<DataGridArgs>(ID ?? throw new InvalidOperationException("ID cannot be null."));
+
+		if (result.Value != null)
+		{
+			DataGridArgs args = result.Value;
+
+			foreach (var filter in args.Filters.ToArray())
+			{
+				var column = rzDataGrid.ColumnsCollection.FirstOrDefault(x => x.Property == filter.Property);
+				if (column != null)
+				{
+					column.SetFilterValue(filter.FilterValue != null ? filter.FilterValue.ToString() : null);
+					column.SetFilterOperator(filter.FilterOperator as FilterOperator?);
+					column.SetFilterValue(filter.SecondFilterValue != null ? filter.SecondFilterValue.ToString() :
+					null, false);
+					column.SetSecondFilterOperator(filter.SecondFilterOperator as FilterOperator?);
+					column.SetLogicalFilterOperator(filter.LogicalFilterOperator);
+				}
+			}
+
+			if (!string.IsNullOrEmpty(args.OrderBy))
+			{
+				String[] order = args.OrderBy.Split(' ');
+				if (order[1] == "asc") rzDataGrid.OrderBy(order[0]);
+				else rzDataGrid.OrderByDescending(order[0]);
+			}
+
+			@* Set the current state of Data per page *@
+			if (args.Top != null) pageSize = args.Top.Value;
+
+			if (args.Page > 0)
+				await rzDataGrid.GoToPage(args.Page);
+
+			keyword = args.Keyword;
+
+			Console.WriteLine(JsonSerializer.Serialize(args.AdditionalFilter));
+
+			if (args.AdditionalFilter != null)
+			{
+				await FilterChanged.InvokeAsync(args.AdditionalFilter);
+			}
+		}
+
+		@* var orderAndPaging = await session.GetAsync(rzDataGrid.ToString()); *@
+
+		await rzDataGrid.Reload();
+
+	}
+
+	private async Task Load(LoadDataArgs args)
+	{
+		isLoading = true;
+
+
+		if (Data == null || !string.IsNullOrEmpty(keyword))
+		{
+			Data = await LoadData.Invoke(keyword) ?? [];
+		}
+		var query = Data.AsQueryable();
+
+		@* Untuk menggunakan filter *@
+		if (!string.IsNullOrEmpty(args.Filter))
+		{
+			query = query.Where(args.Filter);
+		}
+
+		@* Untuk Sorting *@
+		if (!string.IsNullOrEmpty(args.OrderBy))
+		{
+			query = query.OrderBy(args.OrderBy);
+		}
+
+		@* var orderAndPagingValues = new { OrderBy = args.OrderBy, Skip = args.Skip, Top = args.Top }; *@
+		if (SaveSession)
+		{
+			await session.SetAsync(ID ?? throw new InvalidOperationException("ID cannot be null."), new DataGridArgs
+				{
+					Keyword = keyword ?? "",
+					Page = rzDataGrid.CurrentPage,
+					Skip = args.Skip,
+					Top = args.Top,
+					OrderBy = args.OrderBy,
+					Filter = args.Filter,
+					Filters = args.Filters,
+					Sorts = args.Sorts,
+					AdditionalFilter = Filter
+				});
+		}
+
+		Count = query.Count();
+		if (args.Skip != null && args.Top != null)
+		{
+			Rows = query.Skip(args.Skip.Value).Take(args.Top.Value).ToList();
+		}
+
+
+		if (Count == 0)
+		{
+			pagingSummaryFormat = "No records found";
+		}
+
+		selectedData = new List<TItem>();
+		isLoading = false;
+	}
+
+	public async Task Reload()
+	{
+		isLoading = true;
+		StateHasChanged();
+
+		var result = await LoadData.Invoke(keyword);
+
+		if (result != null)
+		{
+			Data = result;
+			await rzDataGrid.Reload();
+		}
+	}
+
+	public async Task SelectRow(TItem data)
+	{
+		await rzDataGrid.SelectRow(data);
+	}
+
+	async void OnDoubleClickRow(DataGridRowMouseEventArgs<TItem> args)
+	{
+		if (AllowSelected)
+		{
+			await SelectRow(args.Data);
+		}
+	}
+
+
+	private Timer? debounceTimer;
+
+	async Task Search(string value)
+	{
+		keyword = value;
+
+
+		await Reload();
+	}
+
+	private void HandleInput(ChangeEventArgs e)
+	{
+		if (debounceTimer != null)
+		{
+			debounceTimer.Dispose();
+		}
+
+		debounceTimer = new Timer(SearchEvent, e.Value?.ToString(), TimeSpan.FromMilliseconds(500), Timeout.InfiniteTimeSpan);
+	}
+
+	private void SearchEvent(object? state)
+	{
+		var value = state?.ToString();
+		// Panggil metode pencarian atau tindakan lainnya dengan nilai 'value'
+		// Pastikan untuk memanggil ini di thread UI jika memperbarui antarmuka pengguna
+		InvokeAsync(async () =>
+		{
+		// Tindakan yang ingin dilakukan setelah debounce
+			@* Console.WriteLine(value); *@
+			await search.ValueChanged.InvokeAsync(value);
+			StateHasChanged();
+		});
+	}
+}

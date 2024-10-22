@@ -1,0 +1,25 @@
+@namespace IFinancing360_UI.Components
+@typeparam TValue
+@inherits FormComponent<TValue>
+
+<RadzenColumn Visible="@Visible" SizeMD="Size">
+	<RadzenStack Gap="1">
+		@if (Label != null)
+		{
+			<RadzenLabel Component="@Name" Text="@(Label + (Required && !Disabled ? " *" : ""))" Style="width: fit-content;" />
+		}
+		@ChildContent
+
+		@if (Required && !Disabled)
+		{
+			<RadzenRequiredValidator Component="@Name" Text="@($"{Label} is required")" />
+		}
+	</RadzenStack>
+</RadzenColumn>
+
+@code {
+	[Parameter] public string? Label { get; set; }
+	[Parameter] public int Size { get; set; } = 4;
+	[Parameter] public bool Required { get; set; } = false;
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+}

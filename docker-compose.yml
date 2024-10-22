@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  ifinslik_ui:
+    image: ifislik_ui:latest
+    container_name: ifinslik_ui
+    environment:
+      - IFINSYS=http://147.139.191.88:81
+      - IFINCORE=http://147.139.191.88:82
+    ports:
+      - "9002:9002"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    external: true

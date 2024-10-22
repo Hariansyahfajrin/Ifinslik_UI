@@ -1,0 +1,46 @@
+@namespace IFinancing360_UI.Components
+@inject LoadingService LoadingService
+@inherits ComponentBase
+@implements IDisposable
+
+@if (ShowLoading)
+{
+  <RadzenStack AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center" Style="position: fixed; inset: 0; background-color: rgba(0,0,0,0.1); backdrop-filter: blur(1px);
+ z-index: 9999;">
+    <RadzenProgressBarCircular ShowValue="false" ProgressBarStyle="ProgressBarStyle.Primary"
+      Mode="ProgressBarMode.Indeterminate" Size="ProgressBarCircularSize.Large" />
+  </RadzenStack>
+}
+@code {
+  private bool ShowLoading;
+
+  protected override void OnInitialized()
+  {
+    LoadingService.OnShow += Show;
+    LoadingService.OnClose += Close;
+  }
+
+  public void Show()
+  {
+    InvokeAsync(() =>
+    {
+      ShowLoading = true;
+      StateHasChanged();
+    });
+  }
+
+  public void Close()
+  {
+    InvokeAsync(() =>
+    {
+      ShowLoading = false;
+      StateHasChanged();
+    });
+  }
+
+  public void Dispose()
+  {
+    LoadingService.OnShow -= Show;
+    LoadingService.OnClose -= Close;
+  }
+}

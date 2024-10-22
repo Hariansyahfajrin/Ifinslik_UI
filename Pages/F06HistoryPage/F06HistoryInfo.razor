@@ -1,0 +1,27 @@
+@page "/inquiry/datafasilitashistory/add"
+@page "/inquiry/datafasilitashistory/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionHistoryComponent
+@using IFinancing360_SLIK_UI.Components.F06HistoryComponent
+
+<Card>
+	<Card>
+		<Title Text="Data Fasilitas Lainnya History (F06) Info" />
+
+		<FormTransactionHistoryForm ID="@ID" Link="datafasilitashistory" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+					{
+							<Divider />
+
+							<Title Text="Data Fasilitas Lainnya History (F06) List" />
+
+							<F06HistoryDataGrid FormTransactionHistoryID="@ID" />
+					}
+				</Card>
+
+				@code {
+				[Parameter] public string? ID { get; set; }
+		}
+	</Card>

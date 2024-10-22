@@ -1,0 +1,15 @@
+@page "/inquiry/datapengurushistory/{FormTransactionHistoryID}/pengurushistory01/add"
+@page "/inquiry/datapengurushistory/{FormTransactionHistoryID}/pengurushistory01/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.M01HistoryComponent
+
+<Card>
+  <Title Text="Data Pengurus/Pemilik History (M01) Info" />
+
+  <M01HistoryForm ID="@ID" FormTransactionHistoryID="@FormTransactionHistoryID" />
+</Card>
+
+@code {
+  [Parameter] public string? ID { get; set; }
+  [Parameter] public string? FormTransactionHistoryID { get; set; }
+}

@@ -1,0 +1,62 @@
+<!-- #region Form -->
+<RadzenTemplateForm TItem="SysGeneralSubCodeModel" Data="@row" Submit=@OnSubmit>
+	<RadzenStack>
+		<!-- #region Toolbar -->
+		<RadzenRow Gap="8">
+			@if (!IsReadonly)
+			{
+				<RoleAccess Code="RC0000280">
+					<RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Text="Save" />
+				</RoleAccess>
+				@if (ID != null)
+				{
+					<RoleAccess Code="RC0000582">
+						<RadzenButton ButtonStyle=@(row.IsActive == 1 ? ButtonStyle.Danger : ButtonStyle.Success) Text=@(row.IsActive ==
+					1 ? "Non Active" : "Active") Click="@ChangeStatus" />
+					</RoleAccess>
+				}
+			}
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Back" Click="@Back" />
+		</RadzenRow>
+		<!-- #endregion -->
+
+		<RadzenStack>
+			<!-- #region General Code -->
+			<RadzenRow>
+				<!-- #region Code -->
+				<FormFieldTextBox Label="General Code Code" Name="GeneralCodeCode" @bind-Value="@rowGeneralCode.Code" Max="50"
+					Required="true" Disabled />
+				<!-- #endregion -->
+				<!-- #region Description -->
+				<FormFieldTextBox Label="General Code Description" Name="GeneralCodeDescription"
+					@bind-Value="@rowGeneralCode.Description" Max="50" Required="true" Disabled />
+				<!-- #endregion -->
+			</RadzenRow>
+			<!-- #endregion -->
+
+			<!-- #region Sub Code -->
+			<RadzenRow>
+				<!-- #region Code -->
+				<FormFieldTextBox Label="Code" Name="Code" @bind-Value="@row.Code" Max="50" Required="true" Disabled=@(ID !=
+					null) />
+				<!-- #endregion -->
+
+				<!-- #region Description -->
+				<FormFieldTextArea Label="Description" Name="Description" @bind-Value="@row.Description" Max="250"
+					Required="true" Disabled=@IsReadonly />
+				<!-- #endregion -->
+
+				<!-- #region Is Active -->
+				<FormFieldSwitch Name="IsActive" Label="Active" @bind-Value="@row.IsActive" Disabled />
+				<!-- #endregion -->
+
+				<!-- #region OrderKey -->
+				<FormFieldNumeric Label="Order Key" Name="OrderKey" @bind-Value="@row.OrderKey" Min="0" Required="true"
+					Disabled=@IsReadonly />
+				<!-- #endregion -->
+			</RadzenRow>
+			<!-- #endregion -->
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+<!-- #endregion -->

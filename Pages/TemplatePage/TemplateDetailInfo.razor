@@ -1,0 +1,15 @@
+@page "/setting/mastertemplate/{MasterTemplateID}/mastertemplatedetail/add"
+@page "/setting/mastertemplate/{MasterTemplateID}/mastertemplatedetail/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.MasterTemplateDetailComponent
+
+<Card>
+	<Title Text="Template Detail List" />
+
+	<MasterTemplateDetailForm ID="@ID" MasterTemplateID="@MasterTemplateID" />
+</Card>
+
+@code {
+	[Parameter] public string? ID { get; set; }
+	[Parameter] public string? MasterTemplateID { get; set; }
+}

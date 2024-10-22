@@ -1,0 +1,27 @@
+@page "/transaction/datakredit/add"
+@page "/transaction/datakredit/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionComponent
+@using IFinancing360_SLIK_UI.Components.F01Component
+
+<Card>
+	<Card>
+		<Title Text="Data Kredit (F01) Info" />
+
+		<FormTransactionForm ID="@ID" Link="datakredit" FormType="F01" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Data Kredit (F01) List" />
+
+			<F01DataGrid FormTransactionID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>

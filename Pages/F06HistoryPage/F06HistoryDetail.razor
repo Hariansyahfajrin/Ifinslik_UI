@@ -1,0 +1,15 @@
+@page "/inquiry/datafasilitashistory/{FormTransactionHistoryID}/datafasilitashistory06/add"
+@page "/inquiry/datafasilitashistory/{FormTransactionHistoryID}/datafasilitashistory06/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.F06HistoryComponent
+
+<Card>
+  <Title Text="Data Fasilitas Lainnya History (F06) Info" />
+
+  <F06HistoryForm ID="@ID" FormTransactionHistoryID="@FormTransactionHistoryID" />
+</Card>
+
+@code {
+  [Parameter] public string? ID { get; set; }
+  [Parameter] public string? FormTransactionHistoryID { get; set; }
+}

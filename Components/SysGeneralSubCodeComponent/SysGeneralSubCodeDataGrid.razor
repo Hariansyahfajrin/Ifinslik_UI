@@ -1,0 +1,25 @@
+<RadzenStack>
+	<!-- #region Toolbar -->
+	<RadzenRow Gap="8">
+		@if (!IsReadonly)
+		{
+			<RoleAccess Code="RC0000281">
+				<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+			</RoleAccess>
+			@* <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" /> *@
+		}
+	</RadzenRow>
+	<!-- #endregion -->
+
+	<!-- #region List Data -->
+	<DataGrid ID="SysGeneralSubCodeDataGrid" @ref=@dataGrid TItem="SysGeneralSubCodeModel" LoadData="LoadData"
+		AllowSelected="false">
+		<DataGridColumn TItem="SysGeneralSubCodeModel" Property="Code" Title="Code" Width="20%" TextAlign="TextAlign.Center"
+			Link="@(row => $"/setting/generalcode/{GeneralCodeID}/generalsubcode/{row.ID}")" />
+		<DataGridColumn TItem="SysGeneralSubCodeModel" Property="Description" Title="Description" Width="50%" />
+		<DataGridColumn TItem="SysGeneralSubCodeModel" Property="OrderKey" Title="Order Key" Width="10%"
+			TextAlign="TextAlign.Right" />
+		<DataGridColumn TItem="SysGeneralSubCodeModel" Property="IsActive" Title="Active" Width="20%" FormatString="YN" />
+	</DataGrid>
+	<!-- #endregion -->
+</RadzenStack>

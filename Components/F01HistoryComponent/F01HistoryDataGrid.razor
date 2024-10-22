@@ -1,0 +1,23 @@
+<RadzenStack>
+	@* <RadzenRow Gap="8">
+  <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+  <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete"  />
+  </RadzenRow> *@
+	<DataGrid @ref=@dataGrid TItem="F01HistoryModel" LoadData="LoadData" AllowSelected=false>
+		<RadzenDataGridColumn TItem="F01HistoryModel" Title="Nomor Rekening" Width="20%" TextAlign="TextAlign.Center">
+			<Template Context="row">
+				<RadzenLink Path="@($"/inquiry/datakredithistory/{FormTransactionHistoryID}/datakredithistory01/{row.ID}")">
+					@row.NomorRekening
+				</RadzenLink>
+			</Template>
+		</RadzenDataGridColumn>
+		<RadzenDataGridColumn TItem="F01HistoryModel" Property="Cif" Title="Cif" Width="20%" />
+		<RadzenDataGridColumn TItem="F01HistoryModel" Property="NamaLengkap" Title="Nama Lengkap" Width="20%" />
+		<RadzenDataGridColumn TItem="F01HistoryModel" Property="KodeSifatKredit" Title="Sifat Kredit" Width="20%" />
+		<RadzenDataGridColumn TItem="F01HistoryModel" Property="KodeJenisKredit" Title="Jenis Kredit" Width="20%" />
+		<RadzenDataGridColumn TItem="F01HistoryModel" Property="SysGeneralSubCodeSlikGroup" Title="Slik Group"
+			Width="20%" />
+
+
+	</DataGrid>
+</RadzenStack>

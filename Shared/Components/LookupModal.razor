@@ -1,0 +1,35 @@
+@namespace IFinancing360_UI.Components
+@typeparam TItem
+
+@code {
+	[Parameter]
+	public RenderFragment ChildContent { get; set; } = null!;
+	[Parameter, EditorRequired]
+	public Func<string, Task<List<TItem>>> LoadData { get; set; } = null!;
+	[Parameter, EditorRequired]
+	public string? ID { get; set; }
+	[Parameter]
+	public string? Title { get; set; }
+	protected DataGrid<TItem> dataGrid = new();
+	protected Modal modal = new();
+	protected override async Task OnInitializedAsync()
+	{
+		ID = $"Lookup_" + (string.IsNullOrEmpty(ID) ? typeof(TItem).Name : ID);
+		await base.OnInitializedAsync();
+	}
+
+	public void Open()
+	{
+		modal.Open();
+	}
+
+	public void Close()
+	{
+		modal.Close();
+	}
+	public async Task Reload()
+	{
+		await dataGrid.Reload();
+	}
+
+}

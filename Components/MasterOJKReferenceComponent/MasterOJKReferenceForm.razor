@@ -1,0 +1,52 @@
+<RadzenTemplateForm TItem="MasterOJKReferenceModel" Data="@row" Submit=@OnSubmit>
+				<RadzenStack>
+					<RadzenRow Gap="8">
+						@if(!IsReadonly){
+											<RoleAccess Code="RC0000280">
+						<RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Text="Save" />
+</RoleAccess>
+							@if(ID != null){
+								<RoleAccess Code="RC0000582">
+							<RadzenButton ButtonStyle=@(row.IsActive == 1 ? ButtonStyle.Danger : ButtonStyle.Success) Text=@(row.IsActive
+							== 1 ? "Non Active" : "Active") Click="@ChangeStatus" />
+							</RoleAccess>
+							}
+						}
+
+						<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Back" Click="@Back" />
+					</RadzenRow>
+
+
+					<RadzenStack>
+						@if (rowSubCode != null)
+						{
+							<RadzenRow>
+								<!-- #region Menu Code -->
+								<FormFieldTextBox Label="SubCode Code" Name="GeneralSubCode" @bind-Value="@rowSubCode.Code" Max="50" Disabled="true" />
+								<FormFieldTextBox Label="SubCode Description" Name="SubCodeDescription" @bind-Value="@rowSubCode.Description" Max="50"
+									Disabled="true" />
+								<!-- #endregion -->
+
+							</RadzenRow>
+
+						}
+						@if (row != null)
+						{
+
+							<RadzenRow>
+								<FormFieldTextBox Label="Code" Name="Code" @bind-Value="@row.Code" Max="50" Required="true"
+									Disabled="@(ID != null)" />
+
+								<FormFieldTextBox Label="Description" Name="Description" @bind-Value="@row.Description" Max="250"
+									Required="true" Disabled=@IsReadonly />
+								<FormFieldTextBox Label="OJK Code" Name="OJKCode" @bind-Value="@row.OJKCode" Max="50" Required="true" Disabled=@IsReadonly />
+
+								<!-- #region Is Active -->
+								<FormFieldSwitch Name="IsActive" Label="Active" @bind-Value="@row.IsActive" Disabled="@(ID != null)" />
+								<!-- #endregion -->
+							</RadzenRow>
+
+						}
+					</RadzenStack>
+				</RadzenStack>
+			</RadzenTemplateForm>

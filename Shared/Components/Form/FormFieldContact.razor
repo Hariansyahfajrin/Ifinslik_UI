@@ -1,0 +1,80 @@
+@namespace IFinancing360_UI.Components
+@inherits FormField<string?>
+@using System.Text.RegularExpressions
+
+<FormField TValue="string?" Name="@Name" Size="Size" Visible="@Visible" Disabled="@Disabled"
+  Label=@Label Style="@Style" Required=@Required>
+
+  <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal" Gap="16">
+    <RadzenTextBox  Name="@($"Area{Name}")" Value="@AreaValue" ValueChanged="(value) => {
+			AreaValue = value;
+			AreaValueChanged.InvokeAsync(value);
+		}" Change="AreaChange" Disabled="Disabled" MaxLength="AreaMax" Style=@($"{AreaInputWidthStyle} {InputStyle} {AreaInputStyle}") />
+
+    <RadzenLabel Text="-" />
+
+    <RadzenTextBox Name="@Name" TabIndex="TabIndex" Value="@Value" Placeholder="@(Placeholder)" Disabled="Disabled"
+      ValueChanged="(value) => {
+			Value = value;
+			ValueChanged.InvokeAsync(value);
+		}" Change="Change" ValueExpression="ValueExpression" MaxLength="Max" Style=@($"{ValueInputWidthStyle} {InputStyle} {ValueInputStyle}") />
+  </RadzenStack>
+
+  @ChildContent
+
+  @if (Required && !Disabled && !string.IsNullOrEmpty(Value))
+  {
+    <RadzenCustomValidator Component="@($"Area{Name}")" Validator="@(() => !string.IsNullOrEmpty(AreaValue))"
+      Text="@($"{Label} is required")" />
+  }
+
+  @if (!string.IsNullOrEmpty(AreaValue) || !string.IsNullOrEmpty(Value))
+  {
+    <RadzenCustomValidator Component="@Name" Validator="@(() =>  Regex.IsMatch(AreaValue ?? "", @"^\d+$") && Regex.IsMatch(Value ?? "", @"^\d+$"))"
+      Text="@($"{Label} should only contain numbers")" />
+  }
+  @* @if (!string.IsNullOrEmpty(Value))
+  {
+    <RadzenCustomValidator Component="@Name" Validator="@(() =>  Regex.IsMatch(Value ?? "", @"^\d+$"))"
+      Text="@($"{Label} should only contain numbers")" />
+  } *@
+
+
+  @if (Max != null)
+  {
+    <RadzenLengthValidator Component="@Name" Max="Max" Text="@($"{Label} should be at most {Max} characters")" />
+  }
+</FormField>
+
+@code {
+  [Parameter] public int? Max { get; set; } = 12;
+  [Parameter] public int? AreaMax { get; set; } = 4;
+  [Parameter] public string? AreaValue { get; set; }
+  [Parameter] public string? InputStyle { get; set; }
+  [Parameter] public string? AreaInputStyle { get; set; }
+  [Parameter] public string? ValueInputStyle { get; set; }
+  [Parameter] public int AreaInputWidth { get; set; } = 1;
+  [Parameter] public int ValueInputWidth { get; set; } = 4;
+  [Parameter] public EventCallback<string> AreaValueChanged { get; set; }
+  [Parameter] public EventCallback<string> AreaChange { get; set; }
+  private string? AreaInputWidthStyle
+  {
+    get
+    {
+      float areaInputWidth = AreaInputWidth;
+      float valueInputWidth = ValueInputWidth;
+      float width = (areaInputWidth / (areaInputWidth + valueInputWidth)) * 100;
+      return "width: " + width.ToString().Replace(",", ".") + "%;";
+    }
+  }
+  private string? ValueInputWidthStyle
+  {
+    get
+    {
+      float areaInputWidth = AreaInputWidth;
+      float valueInputWidth = ValueInputWidth;
+      float width = (valueInputWidth / (areaInputWidth + valueInputWidth)) * 100;
+      return "width: " + width.ToString().Replace(",", ".") + "%;";
+    }
+  }
+}

@@ -1,0 +1,27 @@
+@page "/transaction/datafasilitas/add"
+@page "/transaction/datafasilitas/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionComponent
+@using IFinancing360_SLIK_UI.Components.F06Component
+
+<Card>
+	<Card>
+		<Title Text="Data Fasilitas Lainnya (F06) Info" />
+
+		<FormTransactionForm ID="@ID" Link="datafasilitas" FormType="F06" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Data Fasilitas Lainnya (F06) List" />
+
+			<F06DataGrid FormTransactionID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>

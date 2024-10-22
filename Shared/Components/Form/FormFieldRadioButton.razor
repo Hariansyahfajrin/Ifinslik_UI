@@ -1,0 +1,33 @@
+@namespace IFinancing360_UI.Components
+@typeparam TValue
+@using System.Reflection
+@using System.Collections
+@inherits FormField<TValue>
+
+<FormField TValue="TValue" Name="@Name" Size="Size" Visible="@Visible" Label="@Label" Style="@Style"
+  @bind-Value="@Value">
+  <RadzenRadioButtonList Value="Value" ValueChanged="ValueChanged" TValue="TValue" Style="@($"{InputStyle} ")"
+    Disabled=Disabled>
+    <Items>
+      @foreach (var item in Items)
+      {
+        <RadzenRadioButtonListItem Value="@item.Value?.ToString()" Text="@item.Key" Style="margin-top: 4px;" />
+      }
+    </Items>
+  </RadzenRadioButtonList>
+  @ChildContent
+</FormField>
+
+@code {
+
+  [Parameter, EditorRequired] public Dictionary<string, TValue> Items { get; set; } = new Dictionary<string, TValue>();
+  [Parameter] public string? InputStyle { get; set; }
+  protected override async Task OnInitializedAsync()
+  {
+    if (Value == null)
+    {
+      Value = Items.FirstOrDefault().Value;
+    }
+    await base.OnInitializedAsync();
+  }
+}

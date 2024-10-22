@@ -1,0 +1,18 @@
+<RadzenStack>
+	<RadzenRow Gap="8">
+		<RoleAccess Code="RC0000031">
+			<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+		</RoleAccess>
+		<RoleAccess Code="RD0000008">
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" />
+		</RoleAccess>
+	</RadzenRow>
+	<DataGrid @ref=@dataGrid ID="A01DataGrid" TItem="A01Model" LoadData="LoadData" AllowSelected=true>
+		<DataGridColumn TItem="A01Model" Property="KodeAgunan" Title="Nomor Agunan" Width="40%" TextAlign="TextAlign.Left"
+			Link=@(row => $"/transaction/dataagunan/{FormTransactionID}/agunan01/{row.ID}") />
+		<DataGridColumn TItem="A01Model" Property="NomorRekening" Title="Nomor Rekening" Width="15%" />
+		<DataGridColumn TItem="A01Model" Property="Cif" Title="CIF" Width="15%" />
+		<DataGridColumn TItem="A01Model" Property="NamaPemilik" Title="Nama Pemilik" Width="20%" />
+		<DataGridColumn TItem="A01Model" Property="KodeJenisAgunanDesc" Title="Jenis Agunan" Width="15%" />
+	</DataGrid>
+</RadzenStack>

@@ -1,0 +1,83 @@
+@namespace IFinancing360_UI.Components
+@implements IDisposable
+
+@inherits ComponentBase
+
+@code {
+  [Inject] protected LoadingService Loading { get; set; } = default!;
+  protected bool isLoading
+  {
+    get => Loading.IsLoading; set
+    {
+      if (value) { Loading.Show(); } else { Loading.Close(); }
+    }
+  }
+
+  protected bool IsLoading
+  {
+    get
+    {
+      return Loading.IsLoading;
+    }
+    set
+    {
+      if (value) Loading.Show();
+      else Loading.Close();
+    }
+  }
+
+  protected void ShowNotification(NotificationMessage message)
+  {
+    message.Duration = 2000;
+    NotificationService.Notify(message);
+  }
+
+  protected async Task<bool?> Confirm()
+  {
+    bool? result = await DialogService.Confirm("Are you sure?", "Warning", new ConfirmOptions()
+      {
+        OkButtonText = "Yes",
+        CancelButtonText = "No"
+      });
+
+    return result;
+  }
+
+  protected async Task<bool?> Alert(string title, string message)
+  {
+    var result = await DialogService.Alert(message, title);
+
+    return result;
+  }
+
+  protected async Task<bool?> NoDataSelectedAlert()
+  {
+    var result = await Alert("No data selected", "Please select at least one item.");
+
+    return result;
+  }
+
+  public virtual void Dispose()
+  {
+  }
+
+  protected RenderFragment RenderComponent(string name, IDictionary<string, object>? parameters = null) => builder =>
+  {
+    Type? type = Type.GetType(name);
+
+    if (type != null)
+    {
+      builder.OpenComponent(0, type);
+      if (parameters is not null)
+      {
+        foreach (var parameter in parameters)
+        {
+          builder.AddAttribute(1, parameter.Key, parameter.Value);
+        }
+      }
+
+      builder.CloseComponent();
+    }
+  };
+
+}

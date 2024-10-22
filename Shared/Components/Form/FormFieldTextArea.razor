@@ -1,0 +1,30 @@
+@namespace IFinancing360_UI.Components
+@inherits FormField<string>
+
+<FormField TValue="string" Name="@Name" Size="Size" Visible="@Visible" Disabled="@Disabled" Required="@Required"
+	Label="@Label" Style="@Style" @bind-Value="@Value">
+	<RadzenTextArea Name="@Name" TabIndex="TabIndex" Value="@Value" Placeholder="@(Placeholder ?? $"Enter {Label}")"
+		Disabled="Disabled" ValueChanged="(value) => {
+			Value = value;
+			ValueChanged.InvokeAsync(value);
+		}" Change="Change" ValueExpression="ValueExpression" MaxLength="Max" Style="@InputStyle" Attributes="Attributes" />
+
+	@if (Min != null)
+	{
+		<RadzenLengthValidator Component="@Name" Min="Min" Text="@($"{Label} should be at least {Min} characters")" />
+	}
+	@if (Max != null)
+	{
+		<RadzenLengthValidator Component="@Name" Max="Max" Text="@($"{Label} should be at most {Max} characters")" />
+	}
+	@ChildContent
+</FormField>
+
+@code {
+	[Parameter] public int? Min { get; set; }
+	[Parameter] public int? Max { get; set; }
+	@* [Parameter] public string? Placeholder { get; set; } *@
+	[Parameter] public string? InputStyle { get; set; }
+	[Parameter] public bool ReadOnly { get; set; }
+	@* [Parameter] public IReadOnlyDictionary<string, object>? Attributes { get; set; } *@
+}

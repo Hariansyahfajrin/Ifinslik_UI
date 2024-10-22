@@ -1,0 +1,11 @@
+@page "/inquiry/datakredithistory"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionHistoryComponent
+
+<RoleAccess Code="RA0000010">
+	<Card>
+		<Title Text="Data Kredit History (F01) List" />
+
+		<FormTransactionHistoryDataGrid FormType="F01" Link="datakredithistory" />
+	</Card>
+</RoleAccess>

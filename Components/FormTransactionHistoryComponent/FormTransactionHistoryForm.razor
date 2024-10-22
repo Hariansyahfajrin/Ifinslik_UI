@@ -1,0 +1,29 @@
+<RadzenTemplateForm TItem="FormTransactionHistoryModel" Data="@row" Submit=@OnSubmit>
+	<RadzenStack>
+		<!-- #region Toolbar -->
+		<RadzenRow Gap="8">
+			<RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Text="Save" />
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Back" Click="@Back" />
+		</RadzenRow>
+		<!-- #endregion -->
+
+		<RadzenStack>
+			<RadzenRow>
+				<FormFieldButtonLookup Name="FormType" Label="Form Type" Target="FormTypeLookup" @bind-Value="@row.FormType"
+					@bind-Text="@row.SysGeneralSubCodeFormType" Required="true" />
+				<FormFieldDropdown TValue="string" Label="Company Type" Name="FinanceCompanyType" ValueProperty="Key"
+					TextProperty="Value" Items="@typeCompanys" @bind-Value="@row.FinanceCompanyType" Required="true" />
+				<FormFieldDatePicker Label="Date" Name="Date" @bind-Value="@row.Date" Required="true" />
+			</RadzenRow>
+
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+<SingleSelectLookup @ref="@FormTypeLookup" TItem="SysGeneralSubCodeModel" LoadData="LoadFormTypeLookup"
+	Title="Form Type List" Select="(select) => {
+								row.FormType        = select.Code;
+								row.SysGeneralSubCodeFormType = select.Description;
+							}">
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Code" Title="Code" />
+	<RadzenDataGridColumn TItem="SysGeneralSubCodeModel" Property="Description" Title="Description" />
+</SingleSelectLookup>

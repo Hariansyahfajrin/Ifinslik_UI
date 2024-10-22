@@ -1,0 +1,47 @@
+<!-- #region Form -->
+<RadzenTemplateForm TItem="SysGeneralCodeModel" Data="@row" Submit=@OnSubmit>
+	<RadzenStack>
+		<!-- #region Toolbar -->
+		<RadzenRow Gap="8">
+
+			@if (!IsReadonly)
+			{
+				<RoleAccess Code="RC0000280">
+					<RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Text="Save"
+						Disabled=@(Loading.IsLoading) />
+
+				</RoleAccess>
+			}
+
+			@if (ID != null)
+			{
+				<RoleAccess Code="RU0000052">
+					<RadzenButton ButtonStyle=@(row.IsEditable == 1 ? ButtonStyle.Danger : ButtonStyle.Success)
+						Text=@(row.IsEditable == 1 ? "Non Editable" : "Editable") Click="@ChangeEditable" />
+				</RoleAccess>
+			}
+
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Back" Click="@Back" />
+		</RadzenRow>
+		<!-- #endregion -->
+
+		<RadzenStack>
+			<RadzenRow>
+				<!-- #region Code -->
+				<FormFieldTextBox Label="Code" Name="Code" @bind-Value="@row.Code" Max="50" Required="true" Disabled=@(ID !=
+					null) />
+				<!-- #endregion -->
+
+				<!-- #region Description -->
+				<FormFieldTextArea Label="Description" Name="Description" @bind-Value="@row.Description" Max="250"
+					Required="true" Disabled=IsReadonly />
+				<!-- #endregion -->
+
+				<!-- #region Is Editable -->
+				<FormFieldSwitch Name="IsEditable" Label="Editable" @bind-Value="@row.IsEditable" Disabled />
+				<!-- #endregion -->
+			</RadzenRow>
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+<!-- #endregion -->

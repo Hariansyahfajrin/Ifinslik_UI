@@ -1,0 +1,16 @@
+@page "/transaction/datakredit/{FormTransactionID}/datakredit01/add"
+@page "/transaction/datakredit/{FormTransactionID}/datakredit01/{ID}"
+
+
+@using IFinancing360_SLIK_UI.Components.F01Component
+
+<Card>
+  <Title Text="Data Kredit (F01) Info" />
+
+  <F01Form ID="@ID" FormTransactionID="@FormTransactionID" />
+</Card>
+
+@code {
+  [Parameter] public string? ID { get; set; }
+  [Parameter] public string? FormTransactionID { get; set; }
+}

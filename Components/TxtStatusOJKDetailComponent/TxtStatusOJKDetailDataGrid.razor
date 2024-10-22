@@ -1,0 +1,24 @@
+<RadzenStack>
+	<!-- #region Toolbar -->
+	<RadzenRow Gap="8">
+		<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Validate" Click="@Validate" />
+		@* <RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" /> *@
+	</RadzenRow>
+	<!-- #endregion -->
+
+	<!-- #region List Data -->
+	<DataGrid @ref=@dataGrid TItem="TxtStatusOJKDetailModel" LoadData="LoadData" AllowSelected=false>
+		<DataGridColumn TItem="TxtStatusOJKDetailModel" Property="SysGeneralSubCodeFormType" Title="Form Type" Width="30%"
+			TextAlign="TextAlign.Left">
+		</DataGridColumn>
+		<DataGridColumn TItem="TxtStatusOJKDetailModel" Property="Description" Title="Description" Width="40%" />
+		<DataGridColumn TItem="TxtStatusOJKDetailModel" Property="IsValid" Title="Valid" Width="30%"
+			TextAlign="TextAlign.Center">
+			<Template Context="row">
+				@(row.IsValid == 1 ? "YES" : "NO")
+			</Template>
+		</DataGridColumn>
+	</DataGrid>
+	<!-- #endregion -->
+
+</RadzenStack>

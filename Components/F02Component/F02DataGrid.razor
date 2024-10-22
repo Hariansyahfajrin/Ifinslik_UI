@@ -1,0 +1,19 @@
+<RadzenStack>
+	<RadzenRow Gap="8">
+		<RoleAccess Code="RC0000027">
+			<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+		</RoleAccess>
+		<RoleAccess Code="RD0000006">
+			<RadzenButton ButtonStyle="ButtonStyle.Danger" Text="Delete" Click="@Delete" />
+		</RoleAccess>
+	</RadzenRow>
+	<DataGrid @ref=@dataGrid ID="F02DataGrid" TItem="F02Model" LoadData="LoadData" AllowSelected=true>
+		<DataGridColumn TItem="F02Model" Property="NomorRekening" Title="Nomor Rekening" Width="40%"
+			TextAlign="TextAlign.Left" Link=@(row =>
+			$"/transaction/datakreditjoin/{FormTransactionID}/datakreditjoin02/{row.ID}") />
+		<DataGridColumn TItem="F02Model" Property="Cif" Title="Cif" Width="20%" />
+		<DataGridColumn TItem="F02Model" Property="NamaLengkap" Title="Nama Lengkap" Width="20%" />
+		<DataGridColumn TItem="F02Model" Property="KodeSifatKreditDesc" Title="Sifat Kredit" Width="20%" />
+		<DataGridColumn TItem="F02Model" Property="KodeJenisKreditDesc" Title="Jenis Kredit" Width="20%" />
+	</DataGrid>
+</RadzenStack>

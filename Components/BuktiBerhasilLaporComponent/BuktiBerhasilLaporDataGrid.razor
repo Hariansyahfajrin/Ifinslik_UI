@@ -1,0 +1,33 @@
+<RadzenStack>
+	<!-- #region Toolbar -->
+	<RadzenRow Gap="8">
+		<RoleAccess Code="RC0000035">
+			<RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="@Add" />
+		</RoleAccess>
+	</RadzenRow>
+	<RadzenRow>
+		<FormFieldDropdown TValue="string" Label="Status" Name="Status" ValueProperty="Key" TextProperty="Value"
+			@bind-Value="@filter.Status" Items="@statusDdl" Change="@(async () => await dataGrid.Reload())" Required="true" />
+	</RadzenRow>
+
+
+	<!-- #endregion -->
+	<!-- #region List Data -->
+	<DataGrid @ref=@dataGrid ID="BuktiBerhasilLaporDataGrid" TItem="BuktiBerhasilLaporModel" LoadData="LoadData"
+		AllowSelected="false">
+		<DataGridColumn TItem="BuktiBerhasilLaporModel" Property="SysGeneralSubCodeFinanceCompanyType"
+			Title="Finance Company Type" Width="20%" TextAlign="TextAlign.Center">
+			<Template Context="row">
+				<RadzenLink Path="@("/transaction/periodepelaporanojk/" + row.ID)"
+					Text="@row.SysGeneralSubCodeFinanceCompanyType" />
+			</Template>
+		</DataGridColumn>
+		<DataGridColumn TItem="BuktiBerhasilLaporModel" Property="PeriodePelaporan" Title="Periode Pelaporan" Width="30%"
+			TextAlign="TextAlign.Center" />
+		<DataGridColumn TItem="BuktiBerhasilLaporModel" Property="TanggalUpload" Title="Tanggal Upload" Width="30%" />
+		<DataGridColumn TItem="BuktiBerhasilLaporModel" Property="Status" Title="Status" Width="20%"
+			TextAlign="TextAlign.Center" />
+	</DataGrid>
+	<!-- #endregion -->
+
+</RadzenStack>

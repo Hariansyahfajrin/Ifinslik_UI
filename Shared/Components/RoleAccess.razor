@@ -1,0 +1,18 @@
+@namespace IFinancing360_UI.Components
+@using Helper.Auth
+@inject RoleAccessManager RoleAccessManager
+
+@if (HasAccess)
+{
+	@ChildContent
+}
+@code {
+	[Parameter, EditorRequired] public string Code { get; set; } = "";
+	[Parameter, EditorRequired] public RenderFragment? ChildContent { get; set; }
+	private bool HasAccess { get; set; } = false;
+
+	protected override async Task OnParametersSetAsync()
+	{
+		HasAccess = await RoleAccessManager.HasAccess(Code);
+	}
+}

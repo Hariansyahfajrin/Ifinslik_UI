@@ -1,0 +1,27 @@
+@page "/transaction/datadebiturbadanusaha/add"
+@page "/transaction/datadebiturbadanusaha/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionComponent
+@using IFinancing360_SLIK_UI.Components.D02Component
+
+<Card>
+	<Card>
+		<Title Text="Data Debitur Badan Usaha (D02) Info" />
+
+		<FormTransactionForm ID="@ID" Link="datadebiturbadanusaha" FormType="D02" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Data Debitur Badan Usaha (D02) List" />
+
+			<D02DataGrid FormTransactionID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>

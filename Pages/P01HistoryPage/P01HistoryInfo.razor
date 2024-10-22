@@ -1,0 +1,27 @@
+@page "/inquiry/datapenjaminhistory/add"
+@page "/inquiry/datapenjaminhistory/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionHistoryComponent
+@using IFinancing360_SLIK_UI.Components.P01HistoryComponent
+
+<Card>
+	<Card>
+		<Title Text="Data Penjamin History (P01) Info" />
+
+		<FormTransactionHistoryForm ID="@ID" Link="datapenjaminhistory" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Data Penjamin History (P01) List" />
+
+			<P01HistoryDataGrid FormTransactionHistoryID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>

@@ -1,0 +1,15 @@
+@page "/inquiry/datakredithistory/{FormTransactionHistoryID}/datakredithistory01/add"
+@page "/inquiry/datakredithistory/{FormTransactionHistoryID}/datakredithistory01/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.F01HistoryComponent
+
+<Card>
+  <Title Text="Data Kredit History (F01) Info" />
+
+  <F01HistoryForm ID="@ID" FormTransactionHistoryID="@FormTransactionHistoryID" />
+</Card>
+
+@code {
+  [Parameter] public string? ID { get; set; }
+  [Parameter] public string? FormTransactionHistoryID { get; set; }
+}

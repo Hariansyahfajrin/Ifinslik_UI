@@ -1,0 +1,30 @@
+@namespace IFinancing360_UI.Components
+@inherits FormField<string?>
+
+<FormField TValue="string?" Name="@Name" Size="Size" Visible="@Visible" Disabled="@Disabled" Required="@Required"
+  Label="@Label" Style="@Style" @bind-Value="@Value">
+  <RadzenDatePicker TValue="DateTime?" Value="@DateTimeValue"
+    ValueChanged="@((value) => ValueChanged.InvokeAsync(value?.ToShortTimeString()))" Name="@Name" ShowTime="true"
+    TimeOnly="true" DateFormat="HH:mm" Disabled=Disabled AllowClear=AllowClear class="d-block w-50" Style="@InputStyle"
+    Change="@((value) => Change.InvokeAsync(value?.ToShortTimeString()))" />
+</FormField>
+
+@code {
+  [Parameter] public bool AllowClear { get; set; }
+  [Parameter] public string? InputStyle { get; set; }
+
+  public DateTime dateTime;
+  public DateTime? DateTimeValue
+  {
+    get
+    {
+      if (DateTime.TryParse(Value, out dateTime))
+      {
+        return dateTime;
+      }
+
+      return null;
+    }
+  }
+
+}

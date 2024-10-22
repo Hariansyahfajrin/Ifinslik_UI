@@ -1,0 +1,27 @@
+@page "/transaction/datalaporankeuangandebitur/add"
+@page "/transaction/datalaporankeuangandebitur/{ID}"
+
+@using IFinancing360_SLIK_UI.Components.FormTransactionComponent
+@using IFinancing360_SLIK_UI.Components.K01Component
+
+<Card>
+	<Card>
+		<Title Text="Debitur Keuangan Debitur Info" />
+
+		<FormTransactionForm ID="@ID" Link="datalaporankeuangandebitur" FormType="K01" />
+
+		<!-- #region List Detail -->
+		@if (ID != null)
+		{
+			<Divider />
+
+			<Title Text="Debitur Keuangan Debitur Info" />
+
+			<K01DataGrid FormTransactionID="@ID" />
+		}
+	</Card>
+
+	@code {
+		[Parameter] public string? ID { get; set; }
+	}
+</Card>
